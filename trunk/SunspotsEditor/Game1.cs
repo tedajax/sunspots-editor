@@ -8,14 +8,19 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using SunspotsEditor.LevelData;
 
 namespace SunspotsEditor
 {
+   
     /// <summary>
     /// This is the main type for your game
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        public enum EventType { StartAllRange }
+
+
         GraphicsDeviceManager graphics;
         public Game1()
         {
@@ -27,6 +32,12 @@ namespace SunspotsEditor
         {
             WindowManager windowManager = new WindowManager(this);
             Components.Add(windowManager);
+
+            Level TestLevel = new Level("TestLevel.xml", Content);
+            TestLevel.Initialize();
+            TestLevel.AddSampleData();
+            TestLevel.Save("TestLevel.xml");
+            
 
             base.Initialize();
         }
