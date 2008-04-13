@@ -14,7 +14,7 @@ namespace SunspotsEditor
         protected static SpriteBatch spriteBatch;
         protected static SpriteFont editorFont;
 
-        List<Window> WindowList;
+        List<EditorWindow> WindowList;
 
         public WindowManager(Game game)
             : base(game)
@@ -28,21 +28,31 @@ namespace SunspotsEditor
         //Just include load content in here as well because it's easier
         public override void Initialize()
         {
-            WindowList = new List<Window>();
+            WindowList = new List<EditorWindow>();
+            AddWindow(new SelectTool());
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            foreach (EditorWindow w in WindowList)
+            {
+                w.Update(gameTime);
+            }
         }
 
         public override void Draw(GameTime gameTime)
         {
             graphics.Clear(Color.Black);
+
+            foreach (EditorWindow w in WindowList)
+            {
+                w.Draw3D();
+                w.Draw2D();
+            }
         }
 
-        public void AddWindow(Window add)
+        public void AddWindow(EditorWindow add)
         {
             add.WindowManager = this;
 
@@ -50,7 +60,7 @@ namespace SunspotsEditor
             add.Initialize();
         }
 
-        public void AddWindow(Window add, int pos)
+        public void AddWindow(EditorWindow add, int pos)
         {
             add.WindowManager = this;
 
@@ -58,14 +68,14 @@ namespace SunspotsEditor
             add.Initialize();
         }
 
-        public void RemoveWindow(Window remove)
+        public void RemoveWindow(EditorWindow remove)
         {
             WindowList.Remove(remove);
         }
 
-        public Window FindWindow(string name)
+        public EditorWindow FindWindow(string name)
         {
-            foreach (Window w in WindowList)
+            foreach (EditorWindow w in WindowList)
             {
                 if (w.WindowName().Equals(name))
                     return w;
@@ -74,9 +84,9 @@ namespace SunspotsEditor
             return null;
         }
 
-        public Window FindWindow(string name, string mode)
+        public EditorWindow FindWindow(string name, string mode)
         {
-            foreach (Window w in WindowList)
+            foreach (EditorWindow w in WindowList)
             {
                 if (w.ToString().Equals(name + " : " + mode))
                     return w;
