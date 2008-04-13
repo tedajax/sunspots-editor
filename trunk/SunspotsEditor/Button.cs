@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SunspotsEditor
 {
@@ -31,19 +31,9 @@ namespace SunspotsEditor
             get { return position; }
             set { position = value; }
         }
+              
 
-        public Button(string txt, Vector2 pos)
-        {
-            text = txt;
-            position = pos;
-
-            Vector2 measuretext = WindowManager.EditorFont.MeasureString(text);
-            clickRectangle = new Rectangle((int)pos.X, (int)pos.Y, (int)measuretext.X, (int)measuretext.Y);
-
-            textColor = Color.White;
-        }
-
-        public void Draw()
+        public virtual void Draw()
         {
             WindowManager.SpriteBatch.Begin();
             WindowManager.SpriteBatch.DrawString(WindowManager.EditorFont,
@@ -53,7 +43,7 @@ namespace SunspotsEditor
             WindowManager.SpriteBatch.End();
         }
 
-        public bool GetClick()
+        public virtual bool GetClick()
         {
             MouseState mouse = Mouse.GetState();
             if (clickRectangle.Contains(mouse.X, mouse.Y))
@@ -63,7 +53,7 @@ namespace SunspotsEditor
                     textColor = Color.Lime;
                 else
                     textColor = Color.Red;
-                
+
                 if (OldLeftClick == ButtonState.Pressed && mouse.LeftButton == ButtonState.Released)
                     return true;
             }

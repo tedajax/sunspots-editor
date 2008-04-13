@@ -10,10 +10,16 @@ namespace SunspotsEditor
     class SelectTool : EditorWindow
     {
         List<Button> Buttons = new List<Button>();
+        string ToolToLoad = "";
 
         public SelectTool()
         {
-            Buttons.Add(new Button("TESTING", Vector2.Zero));
+            Texture2D wtf = WindowManager.Content.Load<Texture2D>("player");
+            Buttons.Add(new ImageButton(wtf, "WTF is this shit", new Vector2(500, 50)));
+            Buttons.Add(new TextButton("Terrain", new Vector2(5, 35)));
+            Buttons.Add(new TextButton("Water", new Vector2(5, 65)));
+            Buttons.Add(new TextButton("Enemies", new Vector2(5, 95)));
+            Buttons.Add(new TextButton("Scenery", new Vector2(5, 125)));
         }
 
         public override void Initialize()
@@ -34,6 +40,10 @@ namespace SunspotsEditor
                                                  "\\",
                                                  new Vector2(Mouse.GetState().X, Mouse.GetState().Y),
                                                  Color.White);
+            WindowManager.SpriteBatch.DrawString(WindowManager.EditorFont,
+                                                 ToolToLoad,
+                                                 new Vector2(500, 0),
+                                                 Color.White);
             WindowManager.SpriteBatch.End();
         }
 
@@ -51,11 +61,15 @@ namespace SunspotsEditor
         private void Run(GameTime gameTime)
         {
             bool clickedbutton = false;
+            
             foreach (Button b in Buttons)
             {
                 clickedbutton = b.GetClick();
                 if (clickedbutton)
-                    b.Text = "SUCCESS!";
+                {
+                    ToolToLoad = b.Text;
+                    //Mode = "Die";
+                }
             }
         }
 
