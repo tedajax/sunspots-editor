@@ -16,6 +16,8 @@ namespace SunspotsEditor
 
         List<EditorWindow> WindowList;
 
+        protected static Cursor cursor;
+
         public WindowManager(Game game)
             : base(game)
         {
@@ -25,11 +27,19 @@ namespace SunspotsEditor
             editorFont = content.Load<SpriteFont>("EditorFont");
         }
 
+        public void Exit()
+        {
+            Game.Exit();
+        }
+
         //Just include load content in here as well because it's easier
         public override void Initialize()
         {
             WindowList = new List<EditorWindow>();
             AddWindow(new SelectTool());
+
+            cursor = new Cursor();
+
             base.Initialize();
         }
 
@@ -50,6 +60,8 @@ namespace SunspotsEditor
                 w.Draw3D();
                 w.Draw2D();
             }
+
+            cursor.Draw();
         }
 
         public void AddWindow(EditorWindow add)

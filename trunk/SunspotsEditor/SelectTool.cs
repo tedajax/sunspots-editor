@@ -20,6 +20,9 @@ namespace SunspotsEditor
             Buttons.Add(new TextButton("Water", new Vector2(5, 65)));
             Buttons.Add(new TextButton("Enemies", new Vector2(5, 95)));
             Buttons.Add(new TextButton("Scenery", new Vector2(5, 125)));
+            Buttons.Add(new TextButton("Save", new Vector2(5, 155)));
+            Buttons.Add(new TextButton("Load", new Vector2(5, 185)));
+            Buttons.Add(new TextButton("Exit", new Vector2(5, 215)));
         }
 
         public override void Initialize()
@@ -30,21 +33,20 @@ namespace SunspotsEditor
 
         public override void Draw2D()
         {
-            foreach (Button b in Buttons)
+            if (Mode != "Pause")
             {
-                b.Draw();
-            }
+                foreach (Button b in Buttons)
+                {
+                    b.Draw();
+                }
 
-            WindowManager.SpriteBatch.Begin();
-            WindowManager.SpriteBatch.DrawString(WindowManager.EditorFont,
-                                                 "\\",
-                                                 new Vector2(Mouse.GetState().X, Mouse.GetState().Y),
-                                                 Color.White);
-            WindowManager.SpriteBatch.DrawString(WindowManager.EditorFont,
-                                                 ToolToLoad,
-                                                 new Vector2(500, 0),
-                                                 Color.White);
-            WindowManager.SpriteBatch.End();
+                WindowManager.SpriteBatch.Begin();
+                WindowManager.SpriteBatch.DrawString(WindowManager.EditorFont,
+                                                     ToolToLoad,
+                                                     new Vector2(500, 0),
+                                                     Color.White);
+                WindowManager.SpriteBatch.End();
+            }
         }
 
         public override void Draw3D()
@@ -68,13 +70,25 @@ namespace SunspotsEditor
                 if (clickedbutton)
                 {
                     ToolToLoad = b.Text;
-                    //Mode = "Die";
+                    Mode = "Die";
                 }
             }
         }
 
         private void Die(GameTime gameTime)
         {
+            if (ToolToLoad == "Exit")
+            {
+                WindowManager.Exit();
+                Mode = "Run";
+            }
+            else if (ToolToLoad == "Terrain")
+                Pause();
+            else
+                Mode = "Run";
         }
+
+        public void Pause() { Mode = "Pause"; }
+        public void UnPause() { Mode = "Run"; }
     }
 }

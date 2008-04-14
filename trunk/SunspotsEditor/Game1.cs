@@ -54,9 +54,6 @@ namespace SunspotsEditor
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                this.Exit();
-
             base.Update(gameTime);
         }
 
