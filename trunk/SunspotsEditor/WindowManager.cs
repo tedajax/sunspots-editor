@@ -16,7 +16,6 @@ namespace SunspotsEditor
         protected static TextManager textMngr;
 
         List<EditorWindow> WindowList;
-
         protected static Cursor cursor;
 
         public WindowManager(Game game)
@@ -37,12 +36,13 @@ namespace SunspotsEditor
         public override void Initialize()
         {
             WindowList = new List<EditorWindow>();
+           
+
             cursor = new Cursor();
 
             textMngr = new TextManager();
 
             base.Initialize();
-
             AddWindow(new SelectTool());
         }
 
@@ -61,6 +61,9 @@ namespace SunspotsEditor
             foreach (EditorWindow w in WindowList)
             {
                 w.Draw3D();
+            }
+            foreach (EditorWindow w in WindowList)
+            {
                 w.Draw2D();
             }
 

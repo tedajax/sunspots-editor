@@ -9,6 +9,7 @@ namespace SunspotsEditor.LevelData
 {
     public class Real3DObject
     {
+        
         Model Model;
 
         public LevelData.Generic3DObject GenericObject;
@@ -59,35 +60,103 @@ namespace SunspotsEditor.LevelData
 
         ContentManager ContentManager;
 
-        List<Real3DObject> LevelPieces;
+        public enum DrawMode { DrawOnlySelected, DrawNotSelected }
+
+        public enum DrawTypes { LevelPieces }
+
+        public List<DrawTypes> SelectedList;
+        public DrawMode DrawingMode;
+
+        List<Obj3d> LevelPieces;
 
         public Level(string Filename, ContentManager Content)
         {
             LevelData = LevelData.Load(Filename);
             ContentManager = Content;
+            SelectedList = new List<DrawTypes>();
+            DrawingMode = DrawMode.DrawNotSelected;
+            
         }
 
         public void Initialize()
         {
+            Effect CartoonEffect = ContentManager.Load<Effect>("Shaders\\CartoonEffect");
             if (LevelData != null)
             {
-                LevelPieces = new List<Real3DObject>();
+                LevelPieces = new List<Obj3d>();
                 foreach (LevelData.Generic3DObject GenericObject in LevelData.LevelObjects)
                 {
-                    Real3DObject RealObject = new Real3DObject(ContentManager, GenericObject);
-                    if (RealObject.Initialize(ContentManager))
-                    {
-                        LevelPieces.Add(RealObject);
-                    }
+                    Obj3d Object = ConvertTo3DObject(GenericObject,CartoonEffect);
+                    LevelPieces.Add(Object);
+                    
                 }
             }
 
         }
 
-        public void AddSampleData()
+        public static void ChangeEffectUsedByModel(Model model, Effect replacementEffect)
         {
-            Real3DObject TestObject = new Real3DObject(ContentManager, "unwrappedmodel", Vector3.Zero, Vector3.Zero, new Vector3(1, 1, 1));
-            LevelPieces.Add(TestObject);
+
+            // Table mapping the original effects to our replacement versions.
+            Dictionary<Effect, Effect> effectMapping = new Dictionary<Effect, Effect>();
+
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+             
+                // Scan over all the effects currently on the mesh.
+                if (mesh.Effects[0].ToString() == "Microsoft.Xna.Framework.Graphics.BasicEffect")
+                {
+                    foreach (BasicEffect oldEffect in mesh.Effects)
+                    {
+                        // If we haven't already seen this effect...
+                        if (!effectMapping.ContainsKey(oldEffect))
+                        {
+                            // Make a clone of our replacement effect. We can't just use
+                            // it directly, because the same effect might need to be
+                            // applied several times to different parts of the llmodel using
+                            // a different texture each time, so we need a fresh copy each
+                            // time we want to set a different texture into it.
+                            Effect newEffect = replacementEffect.Clone(
+                                                        replacementEffect.GraphicsDevice);
+
+                            // Copy across the texture from the original effect.
+                            newEffect.Parameters["Texture"].SetValue(oldEffect.Texture);
+
+                            newEffect.Parameters["TextureEnabled"].SetValue(
+                                                                oldEffect.TextureEnabled);
+
+                            effectMapping.Add(oldEffect, newEffect);
+                        }
+                    }
+
+                    // Now that we've found all the effects in use on this mesh,
+                    // update it to use our new replacement versions.
+                    foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                    {
+                        meshPart.Effect = effectMapping[meshPart.Effect];
+                    }
+                }
+            }
+        }
+
+        public Obj3d ConvertTo3DObject(LevelData.Generic3DObject GenericObject, Effect CartoonEffect)
+        {
+            Model Model = ContentManager.Load<Model>(GenericObject.ContentName);
+            ChangeEffectUsedByModel(Model, CartoonEffect);
+            Obj3d Object = new Obj3d(Model, GenericObject.Position, GenericObject.Rotation, GenericObject.ContentName);
+            Object.setScale(GenericObject.Scale);
+            return Object;
+        }
+
+        public LevelData.Generic3DObject ConvertToGeneric3DObject(Obj3d Object)
+        {
+            LevelData.Generic3DObject GenericObject = new LevelData.Generic3DObject();
+            GenericObject.ContentName = Object.getName();
+            GenericObject.Position = Object.getPosition();
+            GenericObject.Rotation = Object.getRotation();
+            GenericObject.Scale = Object.getScale();
+
+            return GenericObject;
         }
 
         public void Save(string Filename)
@@ -95,13 +164,35 @@ namespace SunspotsEditor.LevelData
             if (LevelData != null)
             {
                 LevelData.LevelObjects = new List<LevelData.Generic3DObject>();
-                foreach (Real3DObject RealObject in LevelPieces)
+                foreach (Obj3d RealObject in LevelPieces)
                 {
-                    LevelData.LevelObjects.Add(RealObject.GenericObject);
+                    LevelData.LevelObjects.Add(ConvertToGeneric3DObject(RealObject));
                 }
                 LevelData.Save(Filename);
             }
         }
+
+        public void Draw(String technique)
+        {
+            if (DrawingMode == DrawMode.DrawNotSelected)
+            {
+                DrawNotSelected(technique);
+            }
+
+        }
+
+        public void DrawNotSelected(String technique)
+        {
+            if(!SelectedList.Contains(DrawTypes.LevelPieces))
+            {
+                foreach(Obj3d O in LevelPieces)
+                {
+                    O.DisplayModel(CameraClass.getLookAt(), technique, Vector3.Zero);
+                }
+            }
+        }
+
+        
 
     }
 }

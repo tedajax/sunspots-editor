@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual C# Express 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SunspotsEditor", "SunspotsEditor\SunspotsEditor.csproj", "{77E84719-DE68-4F3F-9017-3D1671FF69B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ziggyware.Xna.OBB", "..\StarForce(SVN)\Ziggyware.Xna.OBB\Ziggyware.Xna.OBB.csproj", "{D8AEC6AC-5DB6-43E4-B9E0-70F23D31C86C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{77E84719-DE68-4F3F-9017-3D1671FF69B6}.Debug|x86.Build.0 = Debug|x86
 		{77E84719-DE68-4F3F-9017-3D1671FF69B6}.Release|x86.ActiveCfg = Release|x86
 		{77E84719-DE68-4F3F-9017-3D1671FF69B6}.Release|x86.Build.0 = Release|x86
+		{D8AEC6AC-5DB6-43E4-B9E0-70F23D31C86C}.Debug|x86.ActiveCfg = Debug|x86
+		{D8AEC6AC-5DB6-43E4-B9E0-70F23D31C86C}.Debug|x86.Build.0 = Debug|x86
+		{D8AEC6AC-5DB6-43E4-B9E0-70F23D31C86C}.Release|x86.ActiveCfg = Release|x86
+		{D8AEC6AC-5DB6-43E4-B9E0-70F23D31C86C}.Release|x86.Build.0 = Release|x86
 		{0F1155E4-EE82-4189-A19B-F544288D7C16}.Debug|x86.ActiveCfg = Debug|x86
 		{0F1155E4-EE82-4189-A19B-F544288D7C16}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection

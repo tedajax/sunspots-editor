@@ -4,18 +4,44 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using SunspotsEditor.LevelData;
 
 namespace SunspotsEditor
 {
-    class SelectTool : EditorWindow
+    class SelectTool : EditorWindow   
     {
         List<Button> Buttons = new List<Button>();
         string ToolToLoad = "";
+        Level TestLevel;
+        RenderTarget2D sceneRenderTarget;
+        RenderTarget2D normalDepthRenderTarget;
+        Effect postprocessEffect;
+
+        Vector3 Rotation = new Vector3();
 
         Vector2 ItemOffset;
 
         public SelectTool()
         {
+            
+        }
+
+        public override void Initialize()
+        {
+            postprocessEffect = WindowManager.Content.Load<Effect>("Shaders\\PostprocessEffect");
+
+            // Create two custom rendertargets.
+            PresentationParameters pp = WindowManager.GraphicsDevice.PresentationParameters;
+
+            sceneRenderTarget = new RenderTarget2D(WindowManager.GraphicsDevice,
+                pp.BackBufferWidth, pp.BackBufferHeight, 1,
+                pp.BackBufferFormat, pp.MultiSampleType, pp.MultiSampleQuality);
+
+            normalDepthRenderTarget = new RenderTarget2D(WindowManager.GraphicsDevice,
+                pp.BackBufferWidth, pp.BackBufferHeight, 1,
+                pp.BackBufferFormat, pp.MultiSampleType, pp.MultiSampleQuality);
+
+
             Texture2D wtf = WindowManager.Content.Load<Texture2D>("player");
             Buttons.Add(new ImageButton(wtf, "WTF is this shit", new Vector2(500, 50)));
             Buttons.Add(new TextButton("Terrain", new Vector2(5, 35)));
@@ -29,8 +55,12 @@ namespace SunspotsEditor
             ItemOffset = Vector2.Zero;
         }
 
-        public override void Initialize()
-        {
+            TestLevel = new LevelData.Level();
+            TestLevel.Initialize();
+
+            CameraClass.setUpCameraClass();
+            CameraClass.Position = new Vector3(0, 20, -50);
+
             Mode = "Run";
             Functions.Add("Exit");
         }
@@ -46,7 +76,61 @@ namespace SunspotsEditor
 
         public override void Draw3D()
         {
+           
+
+            GraphicsDevice device = WindowManager.GraphicsDevice;
+            device.SetRenderTarget(0, normalDepthRenderTarget);
+            TestLevel.Draw("NormalDepth");
+            device.SetRenderTarget(0, sceneRenderTarget);
+            device.Clear(Color.Black);
+            TestLevel.Draw("Toon");
+            device.SetRenderTarget(0, null);
+            device.Clear(Color.Black);
+            ApplyPostprocess();
+
+            
+            
             base.Draw3D();
+        }
+
+        void ApplyPostprocess()
+        {
+            EffectParameterCollection parameters = postprocessEffect.Parameters;
+            string effectTechniqueName;
+
+
+            Vector2 resolution = new Vector2(sceneRenderTarget.Width,
+                                             sceneRenderTarget.Height);
+
+            Texture2D normalDepthTexture = normalDepthRenderTarget.GetTexture();
+
+            parameters["EdgeWidth"].SetValue(1);
+            parameters["EdgeIntensity"].SetValue(1);
+            parameters["ScreenResolution"].SetValue(resolution);
+            parameters["NormalDepthTexture"].SetValue(normalDepthTexture);
+
+            // Choose which effect technique to use.
+
+            effectTechniqueName = "EdgeDetect";
+
+            // Activate the appropriate effect technique.
+            postprocessEffect.CurrentTechnique =
+                                    postprocessEffect.Techniques[effectTechniqueName];
+
+            // Draw a fullscreen sprite to apply the postprocessing effect.
+            WindowManager.SpriteBatch.Begin(SpriteBlendMode.None,
+                              SpriteSortMode.Immediate,
+                              SaveStateMode.None);
+
+            postprocessEffect.Begin();
+            postprocessEffect.CurrentTechnique.Passes[0].Begin();
+
+            WindowManager.SpriteBatch.Draw(sceneRenderTarget.GetTexture(), Vector2.Zero, Color.White);
+
+            WindowManager.SpriteBatch.End();
+
+            postprocessEffect.CurrentTechnique.Passes[0].End();
+            postprocessEffect.End();
         }
 
         public override void Update(GameTime gameTime)
@@ -59,6 +143,12 @@ namespace SunspotsEditor
 
         private void Run(GameTime gameTime)
         {
+            Rotation.Y += 0.001f;
+            CameraClass.Position = Vector3.Transform(new Vector3(0, 10, -40), Matrix.CreateFromYawPitchRoll(Rotation.Y, Rotation.X, Rotation.Z));
+
+            CameraClass.Update();
+
+            
             bool clickedbutton = false;
 
             ItemOffset = Vector2.Lerp(ItemOffset, Vector2.Zero, 0.1f);
@@ -67,7 +157,7 @@ namespace SunspotsEditor
             {
                 b.DrawOffset = ItemOffset;
                 clickedbutton = b.GetClick();
-                if (clickedbutton)
+               if (clickedbutton)
                 {
                     ToolToLoad = b.Text;
                     Mode = "Die";

@@ -32,6 +32,7 @@ namespace SunspotsEditor
 
         public void DrawFunctions()
         {
+
             WindowManager.SpriteBatch.Begin();
 
             int count = 0;

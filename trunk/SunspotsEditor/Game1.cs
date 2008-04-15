@@ -19,38 +19,35 @@ namespace SunspotsEditor
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         public enum EventType { StartAllRange }
-
         public static int iWidth = 800;
         public static int iHeight = 600;
+        public static float FieldOfView = 45f;
 
         GraphicsDeviceManager graphics;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-
-            graphics.PreferredBackBufferWidth = iWidth;
-            graphics.PreferredBackBufferHeight = iHeight;
-
             Content.RootDirectory = "Content";
+           
         }
 
         protected override void Initialize()
         {
+
+
             WindowManager windowManager = new WindowManager(this);
+            windowManager.Initialize();
             Components.Add(windowManager);
 
-            Level TestLevel = new Level("TestLevel.xml", Content);
-            TestLevel.Initialize();
-            TestLevel.AddSampleData();
-            TestLevel.Save("TestLevel.xml");
-            
-
             base.Initialize();
+
+           
+
         }
 
         protected override void LoadContent()
         {
-
+            
         }
         
         protected override void UnloadContent()
@@ -65,6 +62,10 @@ namespace SunspotsEditor
 
         protected override void Draw(GameTime gameTime)
         {
+            graphics.GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.RenderState.CullMode = CullMode.None;
+            graphics.GraphicsDevice.RenderState.DepthBufferEnable = true;
+            graphics.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
             base.Draw(gameTime);
         }
     }
