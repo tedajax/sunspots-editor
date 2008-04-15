@@ -60,6 +60,7 @@
     <Compile Include="Cursor.cs" />
     <Compile Include="LevelData\Level.cs" />
     <Compile Include="LevelData\LevelData.cs" />
+    <Compile Include="Text.cs" />
     <Compile Include="TextButton.cs" />
     <Compile Include="ImageButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="EditorWindow.cs" />
     <Compile Include="SelectTool.cs" />
+    <Compile Include="TextManager.cs" />
     <Compile Include="WindowManager.cs" />
   </ItemGroup>
   <ItemGroup>

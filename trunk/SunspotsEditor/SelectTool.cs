@@ -12,6 +12,8 @@ namespace SunspotsEditor
         List<Button> Buttons = new List<Button>();
         string ToolToLoad = "";
 
+        Vector2 ItemOffset;
+
         public SelectTool()
         {
             Texture2D wtf = WindowManager.Content.Load<Texture2D>("player");
@@ -23,6 +25,8 @@ namespace SunspotsEditor
             Buttons.Add(new TextButton("Save", new Vector2(5, 155)));
             Buttons.Add(new TextButton("Load", new Vector2(5, 185)));
             Buttons.Add(new TextButton("Exit", new Vector2(5, 215)));
+
+            ItemOffset = Vector2.Zero;
         }
 
         public override void Initialize()
@@ -33,19 +37,10 @@ namespace SunspotsEditor
 
         public override void Draw2D()
         {
-            if (Mode != "Pause")
-            {
-                foreach (Button b in Buttons)
-                {
-                    b.Draw();
-                }
 
-                WindowManager.SpriteBatch.Begin();
-                WindowManager.SpriteBatch.DrawString(WindowManager.EditorFont,
-                                                     ToolToLoad,
-                                                     new Vector2(500, 0),
-                                                     Color.White);
-                WindowManager.SpriteBatch.End();
+            foreach (Button b in Buttons)
+            {
+                b.Draw();
             }
         }
 
@@ -57,15 +52,20 @@ namespace SunspotsEditor
         public override void Update(GameTime gameTime)
         {
             if (Mode == "Run") Run(gameTime);
+            if (Mode == "Pause") PauseWindow();
             if (Mode == "Die") Die(gameTime);
+            if (Mode == "FinalSave") FinalSave();
         }
 
         private void Run(GameTime gameTime)
         {
             bool clickedbutton = false;
-            
+
+            ItemOffset = Vector2.Lerp(ItemOffset, Vector2.Zero, 0.1f);
+
             foreach (Button b in Buttons)
             {
+                b.DrawOffset = ItemOffset;
                 clickedbutton = b.GetClick();
                 if (clickedbutton)
                 {
@@ -79,13 +79,69 @@ namespace SunspotsEditor
         {
             if (ToolToLoad == "Exit")
             {
-                WindowManager.Exit();
-                Mode = "Run";
+                //WindowManager.Exit();
+                Mode = "FinalSave";
             }
             else if (ToolToLoad == "Terrain")
+            {
                 Pause();
+                //WindowManager.AddWindow(new TerrainEditor());
+            }
+            else if (ToolToLoad == "Water")
+            {
+                Pause();
+                //WindowManager.AddWindow(new WaterEditor());
+            }
+            else if (ToolToLoad == "Enemies")
+            {
+                Pause();
+                //WindowManager.AddWindow(new EnemyEditor());
+            }
+            else if (ToolToLoad == "Scenery")
+            {
+                Pause();
+                //WindowManager.AddWindow(new SceneryEditor());
+            }
+            else if (ToolToLoad == "Save")
+            {
+                Mode = "Run";
+                //Save();
+            }
+            else if (ToolToLoad == "Load")
+            {
+                Mode = "Run";
+                //Load();
+            }
             else
                 Mode = "Run";
+        }
+
+        private void PauseWindow()
+        {
+            ItemOffset = Vector2.Lerp(ItemOffset, new Vector2(-Game1.iWidth, 0), 0.1f);
+
+            foreach (Button b in Buttons)
+            {
+                b.DrawOffset = ItemOffset;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                UnPause();
+        }
+
+        private void FinalSave()
+        {
+            ItemOffset = Vector2.Lerp(ItemOffset, new Vector2(-Game1.iWidth, 0), 0.1f);
+
+            foreach (Button b in Buttons)
+            {
+                b.DrawOffset = ItemOffset;
+            }
+
+            string exitString = "Do You Want To Save?";
+            Vector2 midstring = WindowManager.EditorFont.MeasureString(exitString);
+            WindowManager.TextMngr.DrawText(new Vector2(Game1.iWidth / 2, Game1.iHeight / 2) - midstring, exitString);
+
         }
 
         public void Pause() { Mode = "Pause"; }

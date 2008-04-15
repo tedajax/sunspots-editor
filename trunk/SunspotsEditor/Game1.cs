@@ -20,11 +20,17 @@ namespace SunspotsEditor
     {
         public enum EventType { StartAllRange }
 
+        public static int iWidth = 800;
+        public static int iHeight = 600;
 
         GraphicsDeviceManager graphics;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
+            graphics.PreferredBackBufferWidth = iWidth;
+            graphics.PreferredBackBufferHeight = iHeight;
+
             Content.RootDirectory = "Content";
         }
 

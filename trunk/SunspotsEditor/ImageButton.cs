@@ -33,7 +33,7 @@ namespace SunspotsEditor
             WindowManager.SpriteBatch.Begin();
 
             WindowManager.SpriteBatch.Draw(image,
-                                           position,
+                                           drawoffset + position,
                                            textColor);
 
             WindowManager.SpriteBatch.End();

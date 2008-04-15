@@ -13,6 +13,7 @@ namespace SunspotsEditor
         protected static ContentManager content;
         protected static SpriteBatch spriteBatch;
         protected static SpriteFont editorFont;
+        protected static TextManager textMngr;
 
         List<EditorWindow> WindowList;
 
@@ -36,11 +37,13 @@ namespace SunspotsEditor
         public override void Initialize()
         {
             WindowList = new List<EditorWindow>();
-            AddWindow(new SelectTool());
-
             cursor = new Cursor();
 
+            textMngr = new TextManager();
+
             base.Initialize();
+
+            AddWindow(new SelectTool());
         }
 
         public override void Update(GameTime gameTime)
@@ -60,6 +63,8 @@ namespace SunspotsEditor
                 w.Draw3D();
                 w.Draw2D();
             }
+
+            textMngr.DrawAllText();
 
             cursor.Draw();
         }
@@ -120,6 +125,11 @@ namespace SunspotsEditor
         public static SpriteFont EditorFont
         {
             get { return editorFont; }
+        }
+
+        public static TextManager TextMngr
+        {
+            get { return textMngr; }
         }
     }
 }

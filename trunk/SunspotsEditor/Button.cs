@@ -11,6 +11,7 @@ namespace SunspotsEditor
     {
         protected string text;
         protected Vector2 position;
+        protected Vector2 drawoffset;
         protected Rectangle clickRectangle;
         protected ButtonState OldLeftClick;
         protected Color textColor;
@@ -31,14 +32,19 @@ namespace SunspotsEditor
             get { return position; }
             set { position = value; }
         }
-              
+
+        public Vector2 DrawOffset
+        {
+            get { return drawoffset; }
+            set { drawoffset = value; }
+        }
 
         public virtual void Draw()
         {
             WindowManager.SpriteBatch.Begin();
             WindowManager.SpriteBatch.DrawString(WindowManager.EditorFont,
                                                  text,
-                                                 position,
+                                                 drawoffset + position,
                                                  textColor);
             WindowManager.SpriteBatch.End();
         }
