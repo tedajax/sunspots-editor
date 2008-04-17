@@ -1,0 +1,10 @@
+C:\Documents and Settings\Gokul\My Documents\StarForce\EditorForReal\Ziggyware.Xna.OBB\bin\x86\Debug\Ziggyware.Xna.OBB.dll
+C:\Documents and Settings\Gokul\My Documents\StarForce\EditorForReal\Ziggyware.Xna.OBB\bin\x86\Debug\Ziggyware.Xna.OBB.pdb
+C:\Documents and Settings\Gokul\My Documents\StarForce\EditorForReal\Ziggyware.Xna.OBB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Gokul\My Documents\StarForce\EditorForReal\Ziggyware.Xna.OBB\obj\x86\Debug\Ziggyware.Xna.OBB.dll
+C:\Documents and Settings\Gokul\My Documents\StarForce\EditorForReal\Ziggyware.Xna.OBB\obj\x86\Debug\Ziggyware.Xna.OBB.pdb
+C:\Documents and Settings\Gokul\My Documents\StarForce\Editor For Final\EditorForReal\Ziggyware.Xna.OBB\bin\x86\Debug\Ziggyware.Xna.OBB.dll
+C:\Documents and Settings\Gokul\My Documents\StarForce\Editor For Final\EditorForReal\Ziggyware.Xna.OBB\bin\x86\Debug\Ziggyware.Xna.OBB.pdb
+C:\Documents and Settings\Gokul\My Documents\StarForce\Editor For Final\EditorForReal\Ziggyware.Xna.OBB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Gokul\My Documents\StarForce\Editor For Final\EditorForReal\Ziggyware.Xna.OBB\obj\x86\Debug\Ziggyware.Xna.OBB.dll
+C:\Documents and Settings\Gokul\My Documents\StarForce\Editor For Final\EditorForReal\Ziggyware.Xna.OBB\obj\x86\Debug\Ziggyware.Xna.OBB.pdb
