@@ -45,6 +45,8 @@ namespace SunspotsEditor
             IsSelected = false;
         }
 
+        public virtual Object getEditText() { return DrawText; }
+
         
 
     }

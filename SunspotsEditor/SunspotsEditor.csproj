@@ -64,6 +64,7 @@
     <Compile Include="3D Classes\CollisionObject.cs" />
     <Compile Include="2D Graphics Engine\Button.cs" />
     <Compile Include="2D Graphics Engine\Cursor.cs" />
+    <Compile Include="InputClasses\SimpleVectorEditButton.cs" />
     <Compile Include="InputClasses\KeyboardMouseManager.cs" />
     <Compile Include="InputClasses\KeyboardTyping.cs" />
     <Compile Include="InputClasses\SimpleEditTextButton.cs" />

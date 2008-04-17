@@ -62,8 +62,8 @@ namespace SunspotsEditor
             return CurrentKeyboardString;
         }
 
-        public void ClearKeyboardString() { KeyboardTyping.clearCurrentString(); }
+        public void ClearKeyboardString() { KeyboardTyping.clearCurrentString(); CurrentKeyboardString = ""; }
 
-        public void SetKeyboardString(String newString) { KeyboardTyping.setCurrentString(newString); }
+        public void SetKeyboardString(String newString) { KeyboardTyping.setCurrentString(newString); CurrentKeyboardString = newString; }
     }
 }
