@@ -41,7 +41,9 @@ namespace SunspotsEditor
             WindowManager.KeyboardMouseManager.SetKeyboardString(DrawText);
         }
 
-        public String GetEditText() { return this.DrawText; }
+     
+
+       
 
     }
 }

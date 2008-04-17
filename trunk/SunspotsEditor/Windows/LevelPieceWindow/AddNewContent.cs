@@ -17,7 +17,7 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
 
         PrimitiveBatch PrimitiveBatch;
 
-        SimpleEditTextButton[] EditButtons;
+        SimpleKeyboardEditableButton[] EditButtons;
         int SelectedButton;
 
         
@@ -67,7 +67,7 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
             Vector2 DrawLength = WindowManager.EditorFont.MeasureString(draw);
             WindowManager.TextMngr.DrawText(TextStartPosition - new Vector2(DrawLength.X / 2, 0), draw);
 
-            foreach (SimpleEditTextButton S in EditButtons)
+            foreach (SimpleKeyboardEditableButton S in EditButtons)
             {
                 S.Draw2D();
             }
@@ -133,7 +133,7 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
             if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Enter) == KeyInputType.Pressed)
             {
                 CurrentMode = RunMode.DefineContent;
-                EditButtons = new SimpleEditTextButton[5];
+                EditButtons = new SimpleKeyboardEditableButton[5];
                 Vector2 StartPosition = Position - (Size / 2);
                 Vector2 TextStartPosition = StartPosition + (new Vector2(Size.X * .05f, Size.Y * .08f));
                 Vector2 TextAddVector = new Vector2(0, Size.Y * .08f);
@@ -145,11 +145,11 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
                 TextStartPosition += TextAddVector;
                 EditButtons[1] = new SimpleEditTextButton(TextStartPosition, Game1.LevelObjects[SelectedContent], "Content Item : ");
                 TextStartPosition += TextAddVector;
-                EditButtons[2] = new SimpleEditTextButton(TextStartPosition, Vector3.Zero.ToString(), "Position : ");
+                EditButtons[2] = new SimpleVectorEditButton(TextStartPosition, Vector3.Zero, "Position : ");
                 TextStartPosition += TextAddVector;
-                EditButtons[3] = new SimpleEditTextButton(TextStartPosition, Vector3.Zero.ToString(), "Rotation : ");
+                EditButtons[3] = new SimpleVectorEditButton(TextStartPosition, Vector3.Zero, "Rotation : ");
                 TextStartPosition += TextAddVector;
-                EditButtons[4] = new SimpleEditTextButton(TextStartPosition, Vector3.One.ToString(), "Scale : ");
+                EditButtons[4] = new SimpleVectorEditButton(TextStartPosition, Vector3.One, "Scale : ");
                 
 
 
@@ -161,7 +161,7 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
 
         public void UpdateDefineContent()
         {
-            foreach (SimpleEditTextButton S in EditButtons)
+            foreach (SimpleKeyboardEditableButton S in EditButtons)
             {
                 S.Update();
             }
@@ -188,10 +188,13 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
             if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Enter) == KeyInputType.Pressed)
             {
                 LevelData.LevelData.Generic3DObject NewObject = new SunspotsEditor.LevelData.LevelData.Generic3DObject();
-                NewObject.ContentName = "LevelObjects\\"+EditButtons[1].GetEditText();
-                NewObject.Name = EditButtons[0].GetEditText();
-                NewObject.Position = new Vector3();
-                NewObject.Scale = Vector3.One;
+                NewObject.ContentName = "LevelObjects\\" + (String)EditButtons[1].getEditText();
+                NewObject.Name = (String)EditButtons[0].getEditText();
+                NewObject.Position = (Vector3)EditButtons[2].getEditText();
+                Vector3 Degrees = (Vector3)EditButtons[3].getEditText();
+                //NewObject.Rotation = new Vector3(MathHelper.ToRadians(Degrees.X), MathHelper.ToRadians(Degrees.Y), MathHelper.ToRadians(Degrees.Z));
+                NewObject.Rotation = Degrees;
+                NewObject.Scale = (Vector3)EditButtons[4].getEditText();
                 WindowManager.Level.addLevelPiece(WindowManager.Level.ConvertTo3DObject(NewObject, WindowManager.Level.CartoonEffect));
                 TestWindow Window = (TestWindow)WindowManager.FindWindow("Terrain");
                 Window.Unpause();
