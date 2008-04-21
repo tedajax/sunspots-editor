@@ -26,6 +26,7 @@ namespace SunspotsEditor
 
         public static int iWidth = 800;
         public static int iHeight = 600;
+        public static Vector2 CenterScreen = new Vector2(iWidth / 2, iHeight / 2);
         public static float FieldOfView = 45f;
 
         GraphicsDeviceManager graphics;

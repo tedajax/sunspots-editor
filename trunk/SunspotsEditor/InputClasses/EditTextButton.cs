@@ -6,11 +6,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SunspotsEditor
 {
-    class SimpleEditTextButton : SimpleKeyboardEditableButton
+    class EditTextButton : SimpleKeyboardEditableButton
     {
         String NonEditableText;
 
-        public SimpleEditTextButton(Vector2 Position, String InitialText, String NonEditableText)
+        public EditTextButton(Vector2 Position, String InitialText, String NonEditableText)
         {
             this.Initialize(Position);
             this.DrawText = InitialText;

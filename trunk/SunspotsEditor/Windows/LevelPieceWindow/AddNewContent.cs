@@ -8,25 +8,17 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
 {
     class AddNewContent : EditorWindow
     {
-        Vector2 Position;
-        Vector2 Size;
-        int SelectedContent;
-        enum RunMode { SelectContent, DefineContent }
+        protected Vector2 Position;
+        protected Vector2 Size;
+        protected int SelectedContent;
+        protected enum RunMode { SelectContent, DefineContent }
 
-        RunMode CurrentMode;
+        protected RunMode CurrentMode;
 
-        PrimitiveBatch PrimitiveBatch;
+        protected PrimitiveBatch PrimitiveBatch;
 
-        SimpleKeyboardEditableButton[] EditButtons;
-        int SelectedButton;
-
-        
-
-
-        public AddNewContent()
-        {
-           
-        }
+        protected SimpleKeyboardEditableButton[] EditButtons;
+        protected int SelectedButton;
 
         public override void Initialize()
         {
@@ -56,7 +48,6 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
                     DrawColor = Color.Red;
                 WindowManager.TextMngr.DrawText(TextStartPosition, draw,DrawColor);
             }
-
         }
 
         public void DrawDefineContent()
@@ -71,12 +62,6 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
             {
                 S.Draw2D();
             }
-
-
-            
-
-              
-            
         }
 
         public override void Draw2D()
@@ -133,7 +118,7 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
             if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Enter) == KeyInputType.Pressed)
             {
                 CurrentMode = RunMode.DefineContent;
-                EditButtons = new SimpleKeyboardEditableButton[5];
+                EditButtons = new SimpleKeyboardEditableButton[6];
                 Vector2 StartPosition = Position - (Size / 2);
                 Vector2 TextStartPosition = StartPosition + (new Vector2(Size.X * .05f, Size.Y * .08f));
                 Vector2 TextAddVector = new Vector2(0, Size.Y * .08f);
@@ -141,18 +126,17 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
                 
                 
                 TextStartPosition += TextAddVector;
-                EditButtons[0] = new SimpleEditTextButton(TextStartPosition, "NewModel", "Name : ");
+                EditButtons[0] = new EditTextButton(TextStartPosition, "NewModel", "Name : ");
                 TextStartPosition += TextAddVector;
-                EditButtons[1] = new SimpleEditTextButton(TextStartPosition, Game1.LevelObjects[SelectedContent], "Content Item : ");
+                EditButtons[1] = new EditTextButton(TextStartPosition, Game1.LevelObjects[SelectedContent], "Content Item : ");
                 TextStartPosition += TextAddVector;
-                EditButtons[2] = new SimpleVectorEditButton(TextStartPosition, Vector3.Zero, "Position : ");
+                EditButtons[2] = new VectorEditButton(TextStartPosition, Vector3.Zero, "Position : ");
                 TextStartPosition += TextAddVector;
-                EditButtons[3] = new SimpleVectorEditButton(TextStartPosition, Vector3.Zero, "Rotation : ");
+                EditButtons[3] = new VectorEditButton(TextStartPosition, Vector3.Zero, "Rotation : ");
                 TextStartPosition += TextAddVector;
-                EditButtons[4] = new SimpleVectorEditButton(TextStartPosition, Vector3.One, "Scale : ");
-                
-
-
+                EditButtons[4] = new VectorEditButton(TextStartPosition, Vector3.One, "Scale : ");
+                TextStartPosition += TextAddVector;
+                EditButtons[5] = new EnemyTypeEditButton(TextStartPosition, EnemyType.Block, "LAME : ");
 
                 EditButtons[0].GainFocus();
                 SelectedButton = 0;

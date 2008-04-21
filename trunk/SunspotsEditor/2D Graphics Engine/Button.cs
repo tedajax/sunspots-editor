@@ -14,6 +14,8 @@ namespace SunspotsEditor
         protected Vector2 drawoffset;
         protected Rectangle clickRectangle;
         protected ButtonState OldLeftClick;
+        protected bool buttonSelected;
+        protected bool buttonPressed;
         protected Color textColor;
 
         public string Text
@@ -39,35 +41,48 @@ namespace SunspotsEditor
             set { drawoffset = value; }
         }
 
+        public bool ButtonSelected
+        {
+            get { return buttonSelected; }
+            set { buttonSelected = value; }
+        }
+
         public virtual void Draw()
         {
+            /*
             WindowManager.SpriteBatch.Begin();
             WindowManager.SpriteBatch.DrawString(WindowManager.EditorFont,
                                                  text,
                                                  drawoffset + position,
                                                  textColor);
-            WindowManager.SpriteBatch.End();
+            WindowManager.SpriteBatch.End();*/
+
+            WindowManager.TextMngr.DrawText(drawoffset + position, text, textColor);
         }
 
         public virtual bool GetClick()
         {
             MouseState mouse = Mouse.GetState();
-            if (clickRectangle.Contains(mouse.X, mouse.Y))
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Enter) == KeyInputType.Pressed)
+                buttonPressed = true;
+            else
+                buttonPressed = false;
+            if (buttonSelected)
             {
                 textColor = Color.Red;
-                if (mouse.LeftButton == ButtonState.Pressed)
+                if (buttonPressed)
                     textColor = Color.Lime;
                 else
                     textColor = Color.Red;
 
-                if (OldLeftClick == ButtonState.Pressed && mouse.LeftButton == ButtonState.Released)
+                if (buttonPressed)
                     return true;
             }
             else
                 textColor = Color.White;
 
             OldLeftClick = mouse.LeftButton;
-
+            
             return false;
         }
     }

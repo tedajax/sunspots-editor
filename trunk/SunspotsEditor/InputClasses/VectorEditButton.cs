@@ -6,22 +6,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SunspotsEditor
 {
-    class SimpleVectorEditButton : SimpleKeyboardEditableButton
+    class VectorEditButton : SimpleKeyboardEditableButton
     {
         String NonEditableText;
         Vector3 Vector;
         enum SelectedPart { X, Y, Z };
         SelectedPart Selected;
 
-        public SimpleVectorEditButton(Vector2 Position, Vector3 StartingVector, String NonEditableText)
+        public VectorEditButton(Vector2 Position, Vector3 StartingVector, String NonEditableText)
         {
             this.Initialize(Position);
             this.Vector = StartingVector;
             this.DrawText = NonEditableText + StartingVector.ToString();
             this.NonEditableText = NonEditableText;
             Selected = SelectedPart.X;
-
-
         }
 
         public override void Update()
@@ -117,8 +115,6 @@ namespace SunspotsEditor
                     WindowManager.TextMngr.DrawText(Position + new Vector2(DistancePassed.X + SecondDistancePassed.X + ThirdDistancePassed.X, 0), "}");
 
                 }
-                
-                    
             }
             else
             {

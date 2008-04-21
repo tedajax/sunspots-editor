@@ -261,6 +261,32 @@ namespace SunspotsEditor
             return numVertsPerPrimitive;
         }
 
+        public void AddLine(Vector2 pos1, Vector2 pos2, Color col)
+        {
+            this.AddVertex(pos1, col);
+            this.AddVertex(pos2, col);
+        }
+
+        public void DrawBox(Vector2 Position, Vector2 Size, Color col)
+        {
+            this.Begin(PrimitiveType.LineList);
+            for (int y = (int)Position.Y; y < Position.Y + Size.Y; y++)
+            {
+                AddLine(new Vector2(Position.X, y), new Vector2(Position.X + Size.X, y), col);
+            }
+            this.End();
+        }
+
+        public void DrawBox(Rectangle Boxtangle, Color col)
+        {
+            this.Begin(PrimitiveType.LineList);
+            for (int y = (int)Boxtangle.Top; y < Boxtangle.Bottom; y++)
+            {
+                AddLine(new Vector2(Boxtangle.Left, y), new Vector2(Boxtangle.Right, y), col);
+            }
+            this.End();
+        }
+
         #endregion
 
 
