@@ -4,20 +4,17 @@ using System.Text;
 using SunspotsEditor.LevelData;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Input;
 
 namespace SunspotsEditor.Windows
 {
     class TestWindow : EditorWindow
     {
-        enum RunMode { ManageContent, EditContent, PlaceContent, Pause }
-
         Level Level;
         Effect postprocessEffect;
 
         RenderTarget2D sceneRenderTarget;
         RenderTarget2D normalDepthRenderTarget;
-
 
         PrimitiveBatch PrimitiveBatch;
 
@@ -35,32 +32,28 @@ namespace SunspotsEditor.Windows
         SimpleKeyboardEditableButton[] EditContentButtons;
         int SelectedEditButton;
        
-
-        public TestWindow()
-        {
-            this.Name = "Terrain";
-        }
         public override void Initialize()
         {
+            this.Name = "Terrain";
 
             PrimitiveBatch = new PrimitiveBatch(WindowManager.GraphicsDevice);
 
-           postprocessEffect= WindowManager.Content.Load<Effect>("Shaders\\postprocessEffect");
+            postprocessEffect= WindowManager.Content.Load<Effect>("Shaders\\postprocessEffect");
 
-           PresentationParameters pp = WindowManager.GraphicsDevice.PresentationParameters;
+            PresentationParameters pp = WindowManager.GraphicsDevice.PresentationParameters;
 
-           sceneRenderTarget = new RenderTarget2D(WindowManager.GraphicsDevice,
-               pp.BackBufferWidth, pp.BackBufferHeight, 1,
-               pp.BackBufferFormat, pp.MultiSampleType, pp.MultiSampleQuality);
+            sceneRenderTarget = new RenderTarget2D(WindowManager.GraphicsDevice,
+                pp.BackBufferWidth, pp.BackBufferHeight, 1,
+                pp.BackBufferFormat, pp.MultiSampleType, pp.MultiSampleQuality);
 
          
-           normalDepthRenderTarget = new RenderTarget2D(WindowManager.GraphicsDevice,
-               pp.BackBufferWidth, pp.BackBufferHeight, 1,
-               pp.BackBufferFormat, pp.MultiSampleType, pp.MultiSampleQuality);
+            normalDepthRenderTarget = new RenderTarget2D(WindowManager.GraphicsDevice,
+                pp.BackBufferWidth, pp.BackBufferHeight, 1,
+                pp.BackBufferFormat, pp.MultiSampleType, pp.MultiSampleQuality);
 
-           Level = WindowManager.Level;
-            Level.DrawingMode = Level.DrawMode.DrawNotSelected;
-            Level.SelectedList.Add(Level.DrawTypes.LevelPieces);
+            Level = WindowManager.Level;
+                Level.DrawingMode = Level.DrawMode.DrawNotSelected;
+                Level.SelectedList.Add(Level.DrawTypes.LevelPieces);
 
             CameraClass.setUpCameraClass();
             CameraClass.Position = new Vector3(0, 0, 40);
@@ -74,12 +67,12 @@ namespace SunspotsEditor.Windows
         }
         public void UpdateManageContent(GameTime gameTime)
         {
-            if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.A) == KeyInputType.Pressed)
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.A) == KeyInputType.Pressed)
             {
                 this.WindowManager.AddWindow(new Windows.LevelPieceWindow.AddNewContent());
                 this.Pause();
             }
-            if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Down) == KeyInputType.Pressed)
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Down) == KeyInputType.Pressed)
             {
                 SelectedContentItem++;
                 if (SelectedContentItem >= Level.TerrainPieces.Count)
@@ -106,19 +99,22 @@ namespace SunspotsEditor.Windows
 
         public void SwitchedSelectedContent()
         {
-            if (SelectedContentItem != -1)
+            if (WindowManager.Level.TerrainPieces.Count > 0)
             {
-                Obj3d SelectedObj=WindowManager.Level.TerrainPieces[SelectedContentItem];
-                EditContentButtons[0] = new SimpleEditTextButton(new Vector2(10, 520), SelectedObj.getName(), "Name : ");
-                EditContentButtons[1] = new SimpleEditTextButton(new Vector2(10, 530), SelectedObj.getContentName(), "Content : ");
-                EditContentButtons[2] = new SimpleVectorEditButton(new Vector2(10, 540), SelectedObj.getPosition(), "Position : ");
-                EditContentButtons[3] = new SimpleVectorEditButton(new Vector2(10, 550), SelectedObj.getRotation(), "Rotation : ");
-                EditContentButtons[4] = new SimpleVectorEditButton(new Vector2(10, 560), SelectedObj.getScale(), "Scale : ");
-                EditContentButtons[SelectedEditButton].GainFocus();
-            }
-            if (SelectedContentItem == -1)
-            {
-                EditContentButtons[SelectedEditButton].LoseFocus();
+                if (SelectedContentItem != -1)
+                {
+                    Obj3d SelectedObj = WindowManager.Level.TerrainPieces[SelectedContentItem];
+                    EditContentButtons[0] = new EditTextButton(new Vector2(10, 520), SelectedObj.getName(), "Name : ");
+                    EditContentButtons[1] = new EditTextButton(new Vector2(10, 530), SelectedObj.getContentName(), "Content : ");
+                    EditContentButtons[2] = new VectorEditButton(new Vector2(10, 540), SelectedObj.getPosition(), "Position : ");
+                    EditContentButtons[3] = new VectorEditButton(new Vector2(10, 550), SelectedObj.getRotation(), "Rotation : ");
+                    EditContentButtons[4] = new VectorEditButton(new Vector2(10, 560), SelectedObj.getScale(), "Scale : ");
+                    EditContentButtons[SelectedEditButton].GainFocus();
+                }
+                if (SelectedContentItem == -1)
+                {
+                    EditContentButtons[SelectedEditButton].LoseFocus();
+                }
             }
         }
 
@@ -173,19 +169,25 @@ namespace SunspotsEditor.Windows
         {
             if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Down) == KeyInputType.Pressed)
             {
-                EditContentButtons[SelectedEditButton].LoseFocus();
-                SelectedEditButton++;
-                if (SelectedEditButton >= EditContentButtons.Length) SelectedEditButton = 0;
-                EditContentButtons[SelectedEditButton].GainFocus();
+                if (WindowManager.Level.TerrainPieces.Count > 0 && SelectedContentItem != -1)
+                {
+                    EditContentButtons[SelectedEditButton].LoseFocus();
+                    SelectedEditButton++;
+                    if (SelectedEditButton >= EditContentButtons.Length) SelectedEditButton = 0;
+                    EditContentButtons[SelectedEditButton].GainFocus();
+                }
             }
             if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Up) == KeyInputType.Pressed)
             {
-                EditContentButtons[SelectedEditButton].LoseFocus();
-                SelectedEditButton--;
-                if (SelectedEditButton < 0) SelectedEditButton = EditContentButtons.Length-1;
-                EditContentButtons[SelectedEditButton].GainFocus();
+                if (WindowManager.Level.TerrainPieces.Count > 0 && SelectedContentItem != -1)
+                {
+                    EditContentButtons[SelectedEditButton].LoseFocus();
+                    SelectedEditButton--;
+                    if (SelectedEditButton < 0) SelectedEditButton = EditContentButtons.Length - 1;
+                    EditContentButtons[SelectedEditButton].GainFocus();
+                }
             }
-            if (SelectedContentItem != -1)
+            if (SelectedContentItem != -1 && WindowManager.Level.TerrainPieces.Count > 0)
             {
                 foreach (SimpleKeyboardEditableButton K in EditContentButtons)
                 {
@@ -207,19 +209,38 @@ namespace SunspotsEditor.Windows
             CameraClass.Update();
             if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Tab) == KeyInputType.Pressed)
             {
-                if (CurrentMode == RunMode.PlaceContent)
+                if (WindowManager.KeyboardMouseManager.getKeyData(Keys.LeftShift) == KeyInputType.Released)
                 {
-                    CurrentMode = RunMode.ManageContent;
-                    
+                    if (CurrentMode == RunMode.PlaceContent)
+                    {
+                        CurrentMode = RunMode.ManageContent;
+
+                    }
+                    else if (CurrentMode == RunMode.ManageContent)
+                    {
+                        CurrentMode = RunMode.EditContent;
+
+                    }
+                    else if (CurrentMode == RunMode.EditContent)
+                    {
+                        CurrentMode = RunMode.PlaceContent;
+                    }
                 }
-                else if (CurrentMode == RunMode.ManageContent)
+                else
                 {
-                    CurrentMode = RunMode.EditContent;
-                   
-                }
-                else if (CurrentMode == RunMode.EditContent)
-                {
-                    CurrentMode = RunMode.PlaceContent;
+                    if (CurrentMode == RunMode.PlaceContent)
+                    {
+                        CurrentMode = RunMode.EditContent;
+                    }
+                    else if (CurrentMode == RunMode.EditContent)
+                    {
+                        CurrentMode = RunMode.ManageContent;
+
+                    }
+                    else if (CurrentMode == RunMode.ManageContent)
+                    {
+                        CurrentMode = RunMode.PlaceContent;
+                    }
                 }
             }
             Color PlaceContent = Color.White;
@@ -267,7 +288,7 @@ namespace SunspotsEditor.Windows
 
         public void DrawEditContent()
         {
-            if (SelectedContentItem != -1)
+            if (SelectedContentItem != -1 && WindowManager.Level.TerrainPieces.Count > 0)
             {
                 foreach (SimpleKeyboardEditableButton k in EditContentButtons)
                 {
@@ -317,10 +338,6 @@ namespace SunspotsEditor.Windows
             PrimitiveBatch.AddVertex(new Vector2(0, 500), Color.White);
             PrimitiveBatch.End();
 
-
-           
-           
-
             base.Draw3D();
         }
 
@@ -369,16 +386,17 @@ namespace SunspotsEditor.Windows
             WindowManager.SpriteBatch.Begin(SpriteBlendMode.None,
                               SpriteSortMode.Immediate,
                               SaveStateMode.None);
-                    
+            
+            /*
             postprocessEffect.Begin();
             postprocessEffect.CurrentTechnique.Passes[0].Begin();
-
+            */
             RenderTex = sceneRenderTarget.GetTexture();
             WindowManager.SpriteBatch.Draw(RenderTex, new Rectangle(0, 0, 650, 500), Color.White);
             WindowManager.SpriteBatch.End();
-
+            /*
             postprocessEffect.CurrentTechnique.Passes[0].End();
-            postprocessEffect.End();
+            postprocessEffect.End();*/
         }
 
         public void Pause()
@@ -391,11 +409,5 @@ namespace SunspotsEditor.Windows
         {
             CurrentMode = BeforePauseMode;
         }
-
-        public override string ToString()
-        {
-            return "Terrain";
-        }
-
     }
 }

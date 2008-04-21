@@ -32,7 +32,6 @@ namespace SunspotsEditor
             if (IsSelected) DrawColor = Color.Red;
             WindowManager.TextMngr.DrawText(Position, DrawText, DrawColor);
         }
-
         public virtual void GainFocus()
         {
             WindowManager.KeyboardMouseManager.ClearKeyboardString();

@@ -9,6 +9,21 @@ using SunspotsEditor.LevelData;
 
 namespace SunspotsEditor
 {
+    enum RunMode
+    {
+        ManageContent,
+        EditContent,
+        PlaceContent,
+        Pause
+    }
+
+    enum EnemyType
+    {
+        Block,
+        Chase,
+        Waypoint
+    }
+
     class WindowManager : DrawableGameComponent
     {
         protected static GraphicsDevice graphics;
@@ -20,8 +35,10 @@ namespace SunspotsEditor
 
         public static Level Level;
 
-
         List<EditorWindow> WindowList;
+        public int WindowCount;
+
+        
 
         protected static Cursor cursor;
 
@@ -51,9 +68,8 @@ namespace SunspotsEditor
             textMngr = new TextManager();
 
             base.Initialize();
-            AddWindow(new Windows.TestWindow());
-            AddWindow(new SelectTool());
-            
+            //AddWindow(new Windows.TestWindow());
+            AddWindow(new Windows.SelectTool());
         }
 
         public override void Update(GameTime gameTime)
@@ -68,6 +84,8 @@ namespace SunspotsEditor
             {
                 UpdateList[i].Update(gameTime);
             }
+
+            WindowCount = WindowList.Count;
         }
 
         public override void Draw(GameTime gameTime)
@@ -126,6 +144,14 @@ namespace SunspotsEditor
             }
 
             return null;
+        }
+
+        public EditorWindow FindWindowAt(int index)
+        {
+            if (index >= 0 && index < WindowList.Count)
+                return WindowList[index];
+            else
+                return null;
         }
 
         public static ContentManager Content
