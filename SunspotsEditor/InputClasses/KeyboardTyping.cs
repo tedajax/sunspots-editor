@@ -178,8 +178,12 @@ namespace SunspotsEditor
                     if (Key == "0") Key = ")";
                 }
             }
-            
-            if (Key.ToLower() == "oemperiod")
+            if (Key.ToLower() == "oemminus")
+                if (uppercase)
+                    Key = "_";
+                else
+                    Key = "-";
+            else if (Key.ToLower() == "oemperiod")
                 if (uppercase)
                     Key = ">";
                 else

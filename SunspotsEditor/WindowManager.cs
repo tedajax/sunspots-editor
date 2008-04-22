@@ -60,7 +60,7 @@ namespace SunspotsEditor
         public override void Initialize()
         {
             WindowList = new List<EditorWindow>();
-            Level = new Level("TestLevel.XML", content);
+            Level = new Level("Blank", content);
             Level.Initialize();
             cursor = new Cursor();
             KeyboardMouseManager = new KeyboardMouseManager(Keyboard.GetState(), Mouse.GetState());
