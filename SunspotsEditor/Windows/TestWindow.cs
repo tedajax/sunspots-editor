@@ -57,6 +57,7 @@ namespace SunspotsEditor.Windows
 
             Level = WindowManager.Level;
                 Level.DrawingMode = Level.DrawMode.DrawNotSelected;
+                Level.SelectedList = new List<Level.DrawTypes>();
                 Level.SelectedList.Add(Level.DrawTypes.LevelPieces);
 
             CameraClass.setUpCameraClass();
@@ -225,6 +226,7 @@ namespace SunspotsEditor.Windows
                         K.Update();
                     }
                     Obj3d SelectedObject = Level.TerrainPieces[SelectedContentItem];
+                    SelectedObject.setName((String)EditContentButtons[0].getEditText());
                     SelectedObject.setPosition((Vector3)EditContentButtons[2].getEditText());
                     SelectedObject.setRotation((Vector3)EditContentButtons[3].getEditText());
                     SelectedObject.setScale((Vector3)EditContentButtons[4].getEditText());
@@ -259,7 +261,12 @@ namespace SunspotsEditor.Windows
             CameraClass.Update();
             if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Escape) == KeyInputType.Pressed)
             {
-                this.CurrentMode = RunMode.Pause;
+                if (CurrentMode != RunMode.Pause)
+                {
+                    WindowManager.RemoveWindow(this);
+                    SelectTool Window = (SelectTool)WindowManager.FindWindow("Select");
+                    Window.UnPause();
+                }
 
             }
             if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Tab) == KeyInputType.Pressed)

@@ -87,6 +87,7 @@
     <Compile Include="WindowManager.cs" />
     <Compile Include="Windows\TestWindow.cs" />
     <Compile Include="Windows\Waypoints.cs" />
+    <Compile Include="Windows\Waypoint\AddWaypoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

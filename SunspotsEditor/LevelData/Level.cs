@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
+
 namespace SunspotsEditor.LevelData
 {
     public class Real3DObject
@@ -68,6 +69,15 @@ namespace SunspotsEditor.LevelData
         public DrawMode DrawingMode;
 
         List<Obj3d> LevelPieces;
+        LevelData.WaypointFolder waypoints;
+
+        public LevelData.WaypointFolder Waypoints
+        {
+            get
+            {
+                return waypoints;
+            }
+        }
 
         public List<Obj3d> TerrainPieces
         {
@@ -106,6 +116,8 @@ namespace SunspotsEditor.LevelData
                     LevelPieces.Add(Object);
                     
                 }
+                waypoints = LevelData.Waypoints;
+                
             }
 
         }

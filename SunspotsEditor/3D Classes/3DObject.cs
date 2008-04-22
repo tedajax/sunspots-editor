@@ -318,7 +318,7 @@ namespace SunspotsEditor
             }
         }
 
-
+        public void setName(String Name) { this.Name = Name; }
         public void setPosition(Vector3 position) { this.Position = position; }
         public void setRotation(Vector3 rotation) { this.Rotation = rotation; }
         public void setScale(float newscale) { this.Scale = new Vector3(newscale,newscale,newscale); }

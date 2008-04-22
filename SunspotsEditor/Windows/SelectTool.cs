@@ -27,7 +27,7 @@ namespace SunspotsEditor.Windows
         {
             Texture2D wtf = WindowManager.Content.Load<Texture2D>("player");
             Buttons.Add(new TextButton("Terrain", new Vector2(5, 35)));
-            Buttons.Add(new TextButton("Water", new Vector2(5, 65)));
+            Buttons.Add(new TextButton("Waypoints", new Vector2(5, 65)));
             Buttons.Add(new TextButton("Enemies", new Vector2(5, 95)));
             Buttons.Add(new TextButton("Scenery", new Vector2(5, 125)));
             Buttons.Add(new TextButton("Save", new Vector2(5, 155)));
@@ -135,7 +135,7 @@ namespace SunspotsEditor.Windows
                 ((TestWindow)WindowManager.FindWindow("Terrain")).Unpause();
                 holdingEnter = true;
             }
-            else if (ToolToLoad == "Water")
+            else if (ToolToLoad == "Waypoints")
             {
                 Pause();
                 if (WindowManager.FindWindow("Waypoints") == null) WindowManager.AddWindow(new Waypoints(), 0);
@@ -176,8 +176,8 @@ namespace SunspotsEditor.Windows
                 b.DrawOffset = ItemOffset;
             }
 
-            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Escape) == KeyInputType.Pressed)
-                UnPause();
+           /* if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Escape) == KeyInputType.Pressed)
+                UnPause();*/
         }
 
         private void FinalSave()

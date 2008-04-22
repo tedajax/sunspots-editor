@@ -37,12 +37,15 @@ namespace SunspotsEditor.LevelData
         public class WaypointData
         {
             [XmlAttribute]
+            public String Name;
+           
             public Vector3 Position;
-            [XmlAttribute]
+            
             public float Speed;
 
             public WaypointData()
             {
+                Name = "";
                 Position = Vector3.Zero;
                 Speed = 1f;
             }
@@ -51,11 +54,11 @@ namespace SunspotsEditor.LevelData
         public class WaypointFolder
         {
             [XmlAttribute]
-            String FolderName;
-            [XmlAttribute]
-            List<WaypointData> WaypointData;
-            [XmlAttribute]
-            List<WaypointFolder> Folders;
+            public String FolderName;
+            
+            public List<WaypointData> WaypointData;
+            //[XmlAttribute]
+            public List<WaypointFolder> Folders;
 
             public WaypointFolder()
             {
@@ -64,6 +67,7 @@ namespace SunspotsEditor.LevelData
                 Folders = new List<WaypointFolder>();
             }
         }
+      
 
 
         /// <summary>
@@ -75,18 +79,18 @@ namespace SunspotsEditor.LevelData
        ///<summary>
         /// Static Objects dont require collision. Things like Trees will go here.
         /// </summary>
-        public List<Generic3DObject> StaticObjects;
+       // public List<Generic3DObject> StaticObjects;
 
         /// <summary>
         /// List of Waypoints that a Railship will follow. Waypoints follow a directory format for organization
         /// </summary>
-        public List<WaypointFolder> Waypoints;
+        public WaypointFolder Waypoints;
 
         public LevelData()
         {
            LevelObjects = new List<Generic3DObject>();
-           // StaticObjects = new List<Generic3DObject>();
-           // Waypoints = new List<WaypointFolder>();
+           // StaticObjects = new List<Generic3DObject>();new
+           Waypoints = new WaypointFolder();
         }
 
         /// <summary>
