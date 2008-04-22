@@ -29,24 +29,44 @@ namespace SunspotsEditor
             {
                // DrawText = WindowManager.KeyboardMouseManager.GetKeyboardTyping();
                 float ReturnFloat;
-                if (float.TryParse(this.CurrentKeyboardString, out ReturnFloat))
+                if (this.CurrentKeyboardString.Contains("-") && this.CurrentKeyboardString[CurrentKeyboardString.Length-1] == '-')
                 {
+
                     if (Selected == SelectedPart.X)
-                        Vector.X = ReturnFloat;
+                    {
+                        Vector.X *= -1;
+                    }
                     if (Selected == SelectedPart.Y)
-                        Vector.Y = ReturnFloat;
+                    {
+                        Vector.Y *= -1;
+                    }
                     if (Selected == SelectedPart.Z)
-                        Vector.Z = ReturnFloat;
+                    {
+                        Vector.Z *= -1;
+                    }
+                    GainFocus();
                 }
                 else
                 {
-                    if (Selected == SelectedPart.X)
-                        Vector.X = 0;
-                    if (Selected == SelectedPart.Y)
-                        Vector.Y = 0;
-                    if (Selected == SelectedPart.Z)
-                        Vector.Z = 0;
-                    GainFocus();
+                    if (float.TryParse(this.CurrentKeyboardString, out ReturnFloat))
+                    {
+                        if (Selected == SelectedPart.X)
+                            Vector.X = ReturnFloat;
+                        if (Selected == SelectedPart.Y)
+                            Vector.Y = ReturnFloat;
+                        if (Selected == SelectedPart.Z)
+                            Vector.Z = ReturnFloat;
+                    }
+                    else
+                    {
+                        if (Selected == SelectedPart.X)
+                            Vector.X = 0;
+                        if (Selected == SelectedPart.Y)
+                            Vector.Y = 0;
+                        if (Selected == SelectedPart.Z)
+                            Vector.Z = 0;
+                        GainFocus();
+                    }
                 }
                 
                 if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Right) == KeyInputType.Pressed)
@@ -125,6 +145,7 @@ namespace SunspotsEditor
         public override void GainFocus()
         {
             base.GainFocus();
+            WindowManager.KeyboardMouseManager.ClearKeyboardString();
             //WindowManager.KeyboardMouseManager.SetKeyboardString(DrawText);
             if (Selected == SelectedPart.X)
             {

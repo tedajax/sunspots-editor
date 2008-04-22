@@ -63,7 +63,7 @@ namespace SunspotsEditor.Windows
         public override void Draw3D()
         {
             Color TransBlack = new Color(0, 0, 0, 100);
-            Prims2D.DrawBox(Vector2.Zero + ItemOffset, new Vector2(650, 500), TransBlack);
+            //Prims2D.DrawBox(Vector2.Zero + ItemOffset, new Vector2(6490, 500), TransBlack);
 
             if (Mode == "FinalSave")
             {
@@ -131,13 +131,16 @@ namespace SunspotsEditor.Windows
             else if (ToolToLoad == "Terrain")
             {
                 Pause();
-                WindowManager.AddWindow(new TestWindow(), 0);
+                if(WindowManager.FindWindow("Terrain")==null) WindowManager.AddWindow(new TestWindow(), 0);
+                ((TestWindow)WindowManager.FindWindow("Terrain")).Unpause();
                 holdingEnter = true;
             }
             else if (ToolToLoad == "Water")
             {
                 Pause();
-                //WindowManager.AddWindow(new WaterEditor());
+                if (WindowManager.FindWindow("Waypoints") == null) WindowManager.AddWindow(new Waypoints(), 0);
+                ((Waypoints)WindowManager.FindWindow("Waypoints")).Unpause();
+                holdingEnter = true;
             }
             else if (ToolToLoad == "Enemies")
             {
@@ -152,12 +155,13 @@ namespace SunspotsEditor.Windows
             else if (ToolToLoad == "Save")
             {
                 Mode = "Run";
-                //WindowManager.Level.Save("Filename");
+                WindowManager.Level.Save("TestLevel.XML");
             }
             else if (ToolToLoad == "Load")
             {
                 Mode = "Run";
-                //Load();
+                WindowManager.Level = new LevelData.Level("TestLevel.XML", WindowManager.Content);
+                WindowManager.Level.Initialize();
             }
             else
                 Mode = "Run";

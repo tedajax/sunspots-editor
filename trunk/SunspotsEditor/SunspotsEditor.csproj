@@ -86,6 +86,7 @@
     <Compile Include="2D Graphics Engine\TextManager.cs" />
     <Compile Include="WindowManager.cs" />
     <Compile Include="Windows\TestWindow.cs" />
+    <Compile Include="Windows\Waypoints.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -102,9 +103,6 @@
       <Project>{D8AEC6AC-5DB6-43E4-B9E0-70F23D31C86C}</Project>
       <Name>Ziggyware.Xna.OBB</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v2.0\Microsoft.Xna.GameStudio.Common.targets" />

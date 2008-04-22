@@ -260,7 +260,7 @@ namespace SunspotsEditor
                         Rotation += ExtraRotation;
                     Matrix localWorld = transforms[mesh.ParentBone.Index]
                                    * Matrix.CreateScale(Scale)
-                                   * Matrix.CreateFromYawPitchRoll(Rotation.Y, Rotation.X, Rotation.Z)
+                                   * Matrix.CreateFromYawPitchRoll(MathHelper.ToRadians(Rotation.Y), MathHelper.ToRadians(Rotation.X), MathHelper.ToRadians(Rotation.Z))
                                    * Matrix.CreateTranslation(Position);
 
                     effect.Parameters["World"].SetValue(localWorld);

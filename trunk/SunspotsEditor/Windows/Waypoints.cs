@@ -6,10 +6,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace SunspotsEditor.Windows
 {
-    class TestWindow : EditorWindow
+    class Waypoints : EditorWindow
     {
+        
         Level Level;
         Effect postprocessEffect;
 
@@ -35,7 +37,7 @@ namespace SunspotsEditor.Windows
        
         public override void Initialize()
         {
-            this.Name = "Terrain";
+            this.Name = "Waypoints";
 
             CameraMovementSpeed = new Vector3(1, 1, 1);
             CameraRotationSpeed = new Vector3(1, 1, 1);
@@ -379,12 +381,10 @@ namespace SunspotsEditor.Windows
 
             device.SetRenderTarget(0, normalDepthRenderTarget);
             device.Clear(Color.Blue);
-            DrawLevel("NormalDepth",device);
             Level.Draw("NormalDepth");
             
             device.SetRenderTarget(0, sceneRenderTarget);
             device.Clear(Color.Blue);
-            DrawLevel("Toon",device);
             Level.Draw("Toon");
             device.RenderState.FillMode = FillMode.Solid;
             device.SetRenderTarget(0, null);
@@ -403,22 +403,7 @@ namespace SunspotsEditor.Windows
             base.Draw3D();
         }
 
-        private void DrawLevel(string Technique, GraphicsDevice device)
-        {
-            for (int i = 0; i < Level.TerrainPieces.Count; i++)
-            {
-                Obj3d O = Level.TerrainPieces[i];
-                if (SelectedContentItem == i||SelectedContentItem == -1)
-                {
-                    device.RenderState.FillMode = FillMode.Solid;
-                }
-                O.DisplayModel(CameraClass.getLookAt(), Technique, Vector3.Zero);
-                if (SelectedContentItem == i)
-                {
-                    device.RenderState.FillMode = FillMode.WireFrame;
-                }
-            }
-        }
+       
 
         void ApplyPostprocess()
         {

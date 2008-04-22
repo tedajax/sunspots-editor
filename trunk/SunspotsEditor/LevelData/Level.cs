@@ -86,6 +86,7 @@ namespace SunspotsEditor.LevelData
             SelectedList = new List<DrawTypes>();
             DrawingMode = DrawMode.DrawNotSelected;
             
+            
         }
 
         public void addLevelPiece(Obj3d Object)
