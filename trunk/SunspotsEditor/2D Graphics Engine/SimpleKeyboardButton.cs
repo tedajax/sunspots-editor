@@ -46,7 +46,7 @@ namespace SunspotsEditor
 
         public virtual Object getEditText() { return DrawText; }
 
-        
+        public virtual bool GetScrolling() { return false; }
 
     }
 }

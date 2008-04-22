@@ -10,17 +10,23 @@ namespace SunspotsEditor
     class EnemyTypeEditButton : SimpleKeyboardEditableButton
     {
         String NonEditable;
-        EnemyType EnemyType;
+        String EnemyType;
+
+        int selected = 0;
 
         Color SelectedColor;
 
-        public EnemyTypeEditButton(Vector2 Position, EnemyType StartingType, String NonEditable)
+        string[] EnemyTypes = { "Block", "Chase", "Waypoint" };
+
+        public EnemyTypeEditButton(Vector2 Position, int Starting, String NonEditable)
         {
             this.NonEditable = NonEditable;
-            this.EnemyType = StartingType;
+            this.EnemyType = EnemyTypes[Starting];
             this.Initialize(Position);
-            this.DrawText = NonEditable + "<- " + StartingType.ToString() + " ->";
+            this.DrawText = NonEditable + "<- " + EnemyType + " ->";
         }
+
+        public string GetEnemyType() { return EnemyType; }
 
         public override void Update()
         {
@@ -30,25 +36,25 @@ namespace SunspotsEditor
 
                 if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Right) == KeyInputType.Pressed)
                 {
-                    if (EnemyType == EnemyType.Block)
-                        EnemyType = EnemyType.Chase;
-                    else if (EnemyType == EnemyType.Chase)
-                        EnemyType = EnemyType.Waypoint;
-                    else if (EnemyType == EnemyType.Waypoint)
-                        EnemyType = EnemyType.Block;
+                    selected++;
 
-                    this.DrawText = NonEditable + "<- " + EnemyType.ToString() + " ->";
+                    if (selected > EnemyTypes.Length - 1)
+                        selected = 0;
+
+                    EnemyType = EnemyTypes[selected];
+
+                    this.DrawText = NonEditable + "<- " + EnemyTypes[selected] + " ->";
                 }
                 if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Left) == KeyInputType.Pressed)
                 {
-                    if (EnemyType == EnemyType.Block)
-                        EnemyType = EnemyType.Waypoint;
-                    else if (EnemyType == EnemyType.Waypoint)
-                        EnemyType = EnemyType.Chase;
-                    else if (EnemyType == EnemyType.Chase)
-                        EnemyType = EnemyType.Block;
+                    selected--;
 
-                    this.DrawText = NonEditable + "<- " + EnemyType.ToString() + " ->";
+                    if (selected < 0)
+                        selected = EnemyTypes.Length - 1;
+
+                    EnemyType = EnemyTypes[selected];
+
+                    this.DrawText = NonEditable + "<- " + EnemyTypes[selected] + " ->";
                 }
             }
             else

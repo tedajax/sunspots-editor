@@ -136,7 +136,7 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
                 TextStartPosition += TextAddVector;
                 EditButtons[4] = new VectorEditButton(TextStartPosition, Vector3.One, "Scale : ");
                 TextStartPosition += TextAddVector;
-                EditButtons[5] = new EnemyTypeEditButton(TextStartPosition, EnemyType.Block, "LAME : ");
+                EditButtons[5] = new EnemyTypeEditButton(TextStartPosition, 0, "LAME : ");
 
                 EditButtons[0].GainFocus();
                 SelectedButton = 0;

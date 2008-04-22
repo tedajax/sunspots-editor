@@ -205,18 +205,15 @@ namespace SunspotsEditor.Windows
 
         public void UpdateEditContent()
         {
-            if (SelectedContentItem != -1)
+            if (WindowManager.Level.TerrainPieces.Count > 0 && SelectedContentItem != -1)
             {
-                if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Down) == KeyInputType.Pressed)
+                if (!EditContentButtons[SelectedEditButton].GetScrolling())
                 {
-                    if (WindowManager.Level.TerrainPieces.Count > 0)
+                    if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Down) == KeyInputType.Pressed)
                     {
                         NextButton();
                     }
-                }
-                if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Up) == KeyInputType.Pressed)
-                {
-                    if (WindowManager.Level.TerrainPieces.Count > 0)
+                    if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Up) == KeyInputType.Pressed)
                     {
                         PreviousButton();
                     }
@@ -233,7 +230,7 @@ namespace SunspotsEditor.Windows
                     SelectedObject.setScale((Vector3)EditContentButtons[4].getEditText());
                 }
             }
-            else
+            else if (SelectedContentItem == -1)
             {
                 if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Down) == KeyInputType.Pressed)
                 {
@@ -243,7 +240,7 @@ namespace SunspotsEditor.Windows
                 {
                     PreviousButton();
                 }
-                
+                            
                 foreach (SimpleKeyboardEditableButton K in EditContentButtons)
                 {
                     K.Update();
@@ -252,7 +249,6 @@ namespace SunspotsEditor.Windows
                 CameraRotationSpeed = (Vector3)EditContentButtons[1].getEditText();
                 
             }
-
         }
 
         public override void Update(GameTime gameTime)
