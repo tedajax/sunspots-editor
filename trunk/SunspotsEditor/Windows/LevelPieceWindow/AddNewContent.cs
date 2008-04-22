@@ -32,6 +32,8 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
 
         public void DrawSelectContent()
         {
+
+            this.Name = "AddContent";
             Vector2 StartPosition = Position - (Size / 2);
             Vector2 TextStartPosition = StartPosition + new Vector2((Size.X * .5f), Size.Y * .03f);
             String draw = "Select Content Item";
