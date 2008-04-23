@@ -160,7 +160,7 @@ namespace SunspotsEditor.Windows
             else if (ToolToLoad == "Load")
             {
                 Mode = "Run";
-                WindowManager.Level = new LevelData.Level("TestLevel.XML", WindowManager.Content);
+                WindowManager.Level = new LevelData.Level("TestLevel.XML", WindowManager.Content,WindowManager.GraphicsDevice);
                 WindowManager.Level.Initialize();
             }
             else

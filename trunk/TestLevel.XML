@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<LevelData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LevelObjects>
+    <Generic3DObject ContentName="LevelObjects\demolevel-2-2">
+      <Name>Rail</Name>
+      <Position>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>498</Z>
+      </Position>
+      <Scale>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Scale>
+      <Rotation>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Rotation>
+    </Generic3DObject>
+    <Generic3DObject ContentName="LevelObjects\demolevel2">
+      <Name>AllRange</Name>
+      <Position>
+        <X>135</X>
+        <Y>0</Y>
+        <Z>2</Z>
+      </Position>
+      <Scale>
+        <X>1</X>
+        <Y>1</Y>
+        <Z>1</Z>
+      </Scale>
+      <Rotation>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Rotation>
+    </Generic3DObject>
+  </LevelObjects>
+  <Waypoints FolderName="">
+    <WaypointData>
+      <WaypointData Name="1">
+        <Position>
+          <X>70</X>
+          <Y>19</Y>
+          <Z>416</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="2">
+        <Position>
+          <X>106</X>
+          <Y>19</Y>
+          <Z>380</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="5">
+        <Position>
+          <X>130</X>
+          <Y>19</Y>
+          <Z>355</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="7C">
+        <Position>
+          <X>143</X>
+          <Y>19</Y>
+          <Z>342</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="7">
+        <Position>
+          <X>159</X>
+          <Y>19</Y>
+          <Z>327</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="7D">
+        <Position>
+          <X>171</X>
+          <Y>19</Y>
+          <Z>316</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="8">
+        <Position>
+          <X>184</X>
+          <Y>19</Y>
+          <Z>304</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="9">
+        <Position>
+          <X>202</X>
+          <Y>19</Y>
+          <Z>289</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="9C">
+        <Position>
+          <X>215</X>
+          <Y>14</Y>
+          <Z>284</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="9CC">
+        <Position>
+          <X>225</X>
+          <Y>11</Y>
+          <Z>280</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="10">
+        <Position>
+          <X>234</X>
+          <Y>8</Y>
+          <Z>280</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="10C">
+        <Position>
+          <X>250</X>
+          <Y>6</Y>
+          <Z>271</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="12">
+        <Position>
+          <X>286</X>
+          <Y>6</Y>
+          <Z>243</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="13">
+        <Position>
+          <X>310</X>
+          <Y>6</Y>
+          <Z>209</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+    </WaypointData>
+    <Folders />
+  </Waypoints>
+</LevelData>

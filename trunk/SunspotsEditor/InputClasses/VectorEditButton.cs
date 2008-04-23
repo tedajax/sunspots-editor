@@ -30,6 +30,15 @@ namespace SunspotsEditor
             Selected = SelectedPart.X;
         }
 
+        Vector3 Forward = new Vector3(0, 0, -1);
+        Vector3 Up = new Vector3(0, 1, 0);
+
+        public void UpdateDirection(Vector3 Forward, Vector3 Up)
+        {
+            this.Forward = Forward;
+            this.Up = Up;
+        }
+
         public override void Update()
         {
             base.Update();
@@ -119,19 +128,20 @@ namespace SunspotsEditor
                 }
                 else
                 {
-                    float vectoradd = 1;
+                    Vector3 Left = Vector3.Cross(Forward, Up);
+                    Left.Normalize();
                     if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Left) == KeyInputType.Held)
-                        Vector.X -= vectoradd;
+                        Vector -= Left;
                     if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Right) == KeyInputType.Held)
-                        Vector.X += vectoradd;
+                        Vector += Left;
                     if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Up) == KeyInputType.Held)
-                        Vector.Z -= vectoradd;
+                        Vector += Forward;
                     if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Down) == KeyInputType.Held)
-                        Vector.Z += vectoradd;
+                        Vector -= Forward;
                     if (WindowManager.KeyboardMouseManager.getKeyData(Keys.PageUp) == KeyInputType.Held)
-                        Vector.Y += vectoradd;
+                        Vector += Up;
                     if (WindowManager.KeyboardMouseManager.getKeyData(Keys.PageDown) == KeyInputType.Held)
-                        Vector.Y -= vectoradd;
+                        Vector -= Up;
                 }
             }
         }

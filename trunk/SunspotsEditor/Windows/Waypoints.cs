@@ -62,6 +62,7 @@ namespace SunspotsEditor.Windows
             Level = WindowManager.Level;
                 Level.DrawingMode = Level.DrawMode.DrawNotSelected;
                 Level.SelectedList = new List<Level.DrawTypes>();
+                Level.SelectedList.Add(Level.DrawTypes.WaypointData);
 
              Model Waypoint = WindowManager.Content.Load<Model>("testship2-2-3ds");
              Level.ChangeEffectUsedByModel(Waypoint, Level.CartoonEffect);
@@ -87,6 +88,64 @@ namespace SunspotsEditor.Windows
             {
                 this.WindowManager.AddWindow(new Windows.Waypoint.AddWaypoint(Level.Waypoints));
                 this.Pause();
+            }
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Delete) == KeyInputType.Pressed)
+            {
+                if (SelectedContentItem != -1)
+                {
+                    Level.Waypoints.WaypointData.RemoveAt(SelectedContentItem);
+                    if (SelectedContentItem >= Level.Waypoints.WaypointData.Count)
+                    {
+                        SelectedContentItem = 0;
+                    }
+                    if (SelectedContentItem < 0) SelectedContentItem = Level.Waypoints.WaypointData.Count - 1;
+                    if (Level.Waypoints.WaypointData.Count == 0) SelectedContentItem = -1;
+                    SwitchedSelectedContent();
+                }
+            }
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.PageUp) == KeyInputType.Pressed)
+            {
+                if (SelectedContentItem != -1)
+                {
+                    LevelData.LevelData.WaypointData Selected = Level.Waypoints.WaypointData[SelectedContentItem];
+                    LevelData.LevelData.WaypointData New = new SunspotsEditor.LevelData.LevelData.WaypointData();
+                    New.Name = Selected.Name;
+                    New.Position = Selected.Position;
+                    if (SelectedContentItem != 0)
+                    {
+                        Level.Waypoints.WaypointData.Insert(SelectedContentItem - 1, New);
+                        Level.Waypoints.WaypointData.Remove(Selected);
+                        SelectedContentItem = Level.Waypoints.WaypointData.IndexOf(New);
+                    }
+                }
+            }
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.PageDown) == KeyInputType.Pressed)
+            {
+                if (SelectedContentItem != -1)
+                {
+                    LevelData.LevelData.WaypointData Selected = Level.Waypoints.WaypointData[SelectedContentItem];
+                    LevelData.LevelData.WaypointData New = new SunspotsEditor.LevelData.LevelData.WaypointData();
+                    New.Name = Selected.Name;
+                    New.Position = Selected.Position;
+                    if (SelectedContentItem != Level.Waypoints.WaypointData.Count-1)
+                    {
+                        Level.Waypoints.WaypointData.Insert(SelectedContentItem + 2, New);
+                        Level.Waypoints.WaypointData.Remove(Selected);
+                        SelectedContentItem = Level.Waypoints.WaypointData.IndexOf(New);
+                    }
+                }
+
+            }
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.C) == KeyInputType.Pressed)
+            {
+                if (SelectedContentItem != -1)
+                {
+                    LevelData.LevelData.WaypointData Selected = Level.Waypoints.WaypointData[SelectedContentItem];
+                    LevelData.LevelData.WaypointData New = new SunspotsEditor.LevelData.LevelData.WaypointData();
+                    New.Name = Selected.Name + "C";
+                    New.Position = Selected.Position;
+                    Level.Waypoints.WaypointData.Insert(SelectedContentItem+1,New);
+                }
             }
             if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Down) == KeyInputType.Pressed)
             {
@@ -384,20 +443,22 @@ namespace SunspotsEditor.Windows
             renderState.DepthBufferEnable = true;
 
             GraphicsDevice device = WindowManager.GraphicsDevice;
-            device.RenderState.FillMode = FillMode.WireFrame;
-            if (SelectedContentItem == -1) device.RenderState.FillMode = FillMode.Solid;
-
+            device.RenderState.FillMode = FillMode.Solid;
+            
             device.SetRenderTarget(0, normalDepthRenderTarget);
             device.Clear(Color.Blue);
             Level.Draw("NormalDepth");
             DrawWaypoints("NormalDepth",device);
+            DrawLine(device, "NormalDepth");
             
             device.SetRenderTarget(0, sceneRenderTarget);
             device.Clear(Color.Blue);
             Level.Draw("Toon");
             DrawWaypoints("Toon",device);
+            DrawLine(device, "Toon");
 
-            device.RenderState.FillMode = FillMode.Solid;
+
+            
             device.SetRenderTarget(0, null);
             device.Clear(Color.Black);
             ApplyPostprocess();
@@ -414,21 +475,61 @@ namespace SunspotsEditor.Windows
             base.Draw3D();
         }
 
+        public void DrawLine(GraphicsDevice Device, string Technique)
+        {
+            Effect Cartoon = Level.CartoonEffect;
+            Cartoon.CurrentTechnique = Cartoon.Techniques[Technique];
+            Cartoon.Parameters["World"].SetValue(Matrix.Identity);
+            Cartoon.Parameters["View"].SetValue(CameraClass.getLookAt());
+            Cartoon.Parameters["Projection"].SetValue(CameraClass.getPerspective());
+
+            VertexPositionColor[] VertList = new VertexPositionColor[Level.Waypoints.WaypointData.Count];
+            short[] Indicies = new short[(Level.Waypoints.WaypointData.Count * 2) - 2];
+
+            for (int i = 0; i < Level.Waypoints.WaypointData.Count; i++)
+            {
+                LevelData.LevelData.WaypointData D = Level.Waypoints.WaypointData[i];
+                VertList[i] = new VertexPositionColor(D.Position, Color.Red);
+            }
+            for (int i = 0; i < Level.Waypoints.WaypointData.Count-1; i++)
+            {
+                Indicies[i * 2] = (short)i;
+                Indicies[(i * 2) + 1] = (short)(i + 1);
+            }
+
+            Device.RenderState.PointSize = 10f;
+            Cartoon.Begin();
+            foreach (EffectPass Pass in Cartoon.CurrentTechnique.Passes)
+            {
+                Pass.Begin();
+                Device.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, VertList, 0, VertList.Length, Indicies, 0, VertList.Length - 1);
+                Pass.End();
+            }
+            Cartoon.End();
+        }
+
         public void DrawWaypoints(String technique, GraphicsDevice device)
         {
+            
             for (int i =0; i<Level.Waypoints.WaypointData.Count;i++)
             {
                 LevelData.LevelData.WaypointData D = Level.Waypoints.WaypointData[i];
-                if (SelectedContentItem == i)
+                if (SelectedContentItem != -1 && technique == "Toon")
                 {
-                    device.RenderState.FillMode = FillMode.Solid;
+                    if (SelectedContentItem == i)
+                    {
+
+                        WaypointObject.setPosition(D.Position);
+                        WaypointObject.DisplayModel(CameraClass.getLookAt(), technique, Vector3.Zero);
+                    }
                 }
-                WaypointObject.setPosition(D.Position);
-                WaypointObject.DisplayModel(CameraClass.getLookAt(), technique, Vector3.Zero);
-                if (SelectedContentItem == i)
+                else
                 {
-                    device.RenderState.FillMode = FillMode.WireFrame;
+                    WaypointObject.setPosition(D.Position);
+                    WaypointObject.DisplayModel(CameraClass.getLookAt(), technique, Vector3.Zero);
                 }
+                device.RenderState.FillMode = FillMode.Solid;
+                
             }
         }
 
