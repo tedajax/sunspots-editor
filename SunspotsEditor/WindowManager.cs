@@ -59,15 +59,16 @@ namespace SunspotsEditor
         //Just include load content in here as well because it's easier
         public override void Initialize()
         {
+            base.Initialize();
             WindowList = new List<EditorWindow>();
-            Level = new Level("Blank", content);
+            Level = new Level("Blank", content,this.GraphicsDevice);
             Level.Initialize();
             cursor = new Cursor();
             KeyboardMouseManager = new KeyboardMouseManager(Keyboard.GetState(), Mouse.GetState());
 
             textMngr = new TextManager();
 
-            base.Initialize();
+           
             //AddWindow(new Windows.TestWindow());
             AddWindow(new Windows.SelectTool());
         }

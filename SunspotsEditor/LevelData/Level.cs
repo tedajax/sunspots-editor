@@ -63,7 +63,7 @@ namespace SunspotsEditor.LevelData
 
         public enum DrawMode { DrawOnlySelected, DrawNotSelected }
 
-        public enum DrawTypes { LevelPieces }
+        public enum DrawTypes { LevelPieces, WaypointData }
 
         public List<DrawTypes> SelectedList;
         public DrawMode DrawingMode;
@@ -89,12 +89,15 @@ namespace SunspotsEditor.LevelData
 
         public Effect CartoonEffect;
 
-        public Level(string Filename, ContentManager Content)
+        GraphicsDevice Device;
+
+        public Level(string Filename, ContentManager Content, GraphicsDevice Device)
         {
             LevelData = LevelData.Load(Filename);
             ContentManager = Content;
             SelectedList = new List<DrawTypes>();
             DrawingMode = DrawMode.DrawNotSelected;
+            this.Device = Device;
             
             
         }
@@ -219,6 +222,43 @@ namespace SunspotsEditor.LevelData
                     O.DisplayModel(CameraClass.getLookAt(), technique, Vector3.Zero);
                 }
             }
+            if (!SelectedList.Contains(DrawTypes.WaypointData))
+            {
+                DrawLine(Device, technique);
+            }
+        }
+
+        public void DrawLine(GraphicsDevice Device, string Technique)
+        {
+            Effect Cartoon = this.CartoonEffect;
+            Cartoon.CurrentTechnique = Cartoon.Techniques[Technique];
+            Cartoon.Parameters["World"].SetValue(Matrix.Identity);
+            Cartoon.Parameters["View"].SetValue(CameraClass.getLookAt());
+            Cartoon.Parameters["Projection"].SetValue(CameraClass.getPerspective());
+
+            VertexPositionColor[] VertList = new VertexPositionColor[Waypoints.WaypointData.Count];
+            short[] Indicies = new short[(Waypoints.WaypointData.Count * 2) - 2];
+
+            for (int i = 0; i < Waypoints.WaypointData.Count; i++)
+            {
+                LevelData.WaypointData D = Waypoints.WaypointData[i];
+                VertList[i] = new VertexPositionColor(D.Position, Color.Red);
+            }
+            for (int i = 0; i < Waypoints.WaypointData.Count - 1; i++)
+            {
+                Indicies[i * 2] = (short)i;
+                Indicies[(i * 2) + 1] = (short)(i + 1);
+            }
+
+            Device.RenderState.PointSize = 10f;
+            Cartoon.Begin();
+            foreach (EffectPass Pass in Cartoon.CurrentTechnique.Passes)
+            {
+                Pass.Begin();
+                Device.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, VertList, 0, VertList.Length, Indicies, 0, VertList.Length - 1);
+                Pass.End();
+            }
+            Cartoon.End();
         }
 
         
