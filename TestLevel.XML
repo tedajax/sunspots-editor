@@ -120,14 +120,6 @@
         </Position>
         <Speed>1</Speed>
       </WaypointData>
-      <WaypointData Name="10">
-        <Position>
-          <X>234</X>
-          <Y>8</Y>
-          <Z>280</Z>
-        </Position>
-        <Speed>1</Speed>
-      </WaypointData>
       <WaypointData Name="10C">
         <Position>
           <X>250</X>
@@ -136,19 +128,75 @@
         </Position>
         <Speed>1</Speed>
       </WaypointData>
-      <WaypointData Name="12">
+      <WaypointData Name="10CC">
         <Position>
-          <X>286</X>
+          <X>268</X>
           <Y>6</Y>
-          <Z>243</Z>
+          <Z>261</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="10CCC">
+        <Position>
+          <X>276</X>
+          <Y>6</Y>
+          <Z>254</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="12C">
+        <Position>
+          <X>290</X>
+          <Y>7</Y>
+          <Z>239</Z>
         </Position>
         <Speed>1</Speed>
       </WaypointData>
       <WaypointData Name="13">
         <Position>
-          <X>310</X>
+          <X>316</X>
           <Y>6</Y>
-          <Z>209</Z>
+          <Z>204</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="13C">
+        <Position>
+          <X>351</X>
+          <Y>6</Y>
+          <Z>149</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="15">
+        <Position>
+          <X>358</X>
+          <Y>12</Y>
+          <Z>114</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="16">
+        <Position>
+          <X>381</X>
+          <Y>12</Y>
+          <Z>74</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="17">
+        <Position>
+          <X>404</X>
+          <Y>12</Y>
+          <Z>35</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="18 ">
+        <Position>
+          <X>420</X>
+          <Y>12</Y>
+          <Z>-44</Z>
         </Position>
         <Speed>1</Speed>
       </WaypointData>
