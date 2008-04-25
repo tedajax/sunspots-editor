@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace SunspotsEditor.Windows.LevelPieceWindow
 {
@@ -107,17 +108,17 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
 
         public void updateSelectContent()
         {
-            if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Down)== KeyInputType.Pressed)
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Down)== KeyInputType.Pressed)
             {
                 SelectedContent++;
                 if (SelectedContent >= Game1.LevelObjects.Length) SelectedContent = 0;
             }
-            if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Up) == KeyInputType.Pressed)
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Up) == KeyInputType.Pressed)
             {
                 SelectedContent--;
                 if (SelectedContent < 0) SelectedContent = Game1.LevelObjects.Length - 1; 
             }
-            if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Enter) == KeyInputType.Pressed)
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Enter) == KeyInputType.Pressed)
             {
                 CurrentMode = RunMode.DefineContent;
                 EditButtons = new SimpleKeyboardEditableButton[6];
@@ -151,7 +152,7 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
             {
                 S.Update();
             }
-            if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Down) == KeyInputType.Pressed)
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Down) == KeyInputType.Pressed)
             {
                 EditButtons[SelectedButton].LoseFocus();
                 SelectedButton++;
@@ -161,7 +162,7 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
                 }
                 EditButtons[SelectedButton].GainFocus();
             }
-            if (WindowManager.KeyboardMouseManager.getKeyData(Microsoft.Xna.Framework.Input.Keys.Up) == KeyInputType.Pressed)
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Up) == KeyInputType.Pressed)
             {
                 EditButtons[SelectedButton].LoseFocus();
                 SelectedButton--;

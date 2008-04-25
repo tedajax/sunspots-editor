@@ -69,6 +69,7 @@ namespace SunspotsEditor.LevelData
         public DrawMode DrawingMode;
 
         List<Obj3d> LevelPieces;
+        List<Enemy> enemies;
         LevelData.WaypointFolder waypoints;
 
         public LevelData.WaypointFolder Waypoints
@@ -85,6 +86,11 @@ namespace SunspotsEditor.LevelData
             {
                 return LevelPieces;
             }
+        }
+
+        public List<Enemy> Enemies
+        {
+            get { return enemies; }
         }
 
         public Effect CartoonEffect;
@@ -107,22 +113,31 @@ namespace SunspotsEditor.LevelData
             LevelPieces.Add(Object);
         }
 
+        public void addEnemy(Enemy ene)
+        {
+            Enemies.Add(ene);
+        }
+
         public void Initialize()
         {
             CartoonEffect = ContentManager.Load<Effect>("Shaders\\CartoonEffect");
             if (LevelData != null)
             {
                 LevelPieces = new List<Obj3d>();
+                enemies = new List<Enemy>();
                 foreach (LevelData.Generic3DObject GenericObject in LevelData.LevelObjects)
                 {
-                    Obj3d Object = ConvertTo3DObject(GenericObject,CartoonEffect);
+                    Obj3d Object = ConvertTo3DObject(GenericObject, CartoonEffect);
                     LevelPieces.Add(Object);
-                    
+                }
+
+                foreach (LevelData.EnemyData Enemy in LevelData.LevelEnemies)
+                {
+                    Enemy Ene = ConvertEnemyDataToEnemy(Enemy, CartoonEffect);
+                    Enemies.Add(Ene);
                 }
                 waypoints = LevelData.Waypoints;
-                
             }
-
         }
 
         public static void ChangeEffectUsedByModel(Model model, Effect replacementEffect)
@@ -179,6 +194,21 @@ namespace SunspotsEditor.LevelData
             return Object;
         }
 
+        public LevelData.TriggerData ConvertTriggerToData(Trigger Trig)
+        {
+            LevelData.TriggerData TriggerObject = new LevelData.TriggerData();
+            TriggerObject.Position = Trig.Position;
+            TriggerObject.Scale = Trig.Scale;
+
+            return TriggerObject;
+        }
+
+        public Trigger ConvertTriggerDataToTrigger(LevelData.TriggerData TrigData)
+        {
+            Trigger newTrigger = new Trigger(TrigData.Position, TrigData.Scale);
+            return newTrigger;
+        }
+
         public LevelData.Generic3DObject ConvertToGeneric3DObject(Obj3d Object)
         {
             LevelData.Generic3DObject GenericObject = new LevelData.Generic3DObject();
@@ -191,14 +221,53 @@ namespace SunspotsEditor.LevelData
             return GenericObject;
         }
 
+        public LevelData.EnemyData ConvertEnemyToEnemyData(Enemy Enemy)
+        {
+            LevelData.EnemyData NewEnemy = new LevelData.EnemyData();
+            
+            NewEnemy.ContentName = Enemy.EnemyObject.getContentName();
+            NewEnemy.Position = Enemy.EnemyObject.getPosition();
+            NewEnemy.Rotation = Enemy.EnemyObject.getRotation();
+            NewEnemy.Scale = Enemy.EnemyObject.getScale();
+            NewEnemy.Name = Enemy.EnemyObject.getName();
+
+            NewEnemy.EnemyType = Enemy.EnemyType;
+
+            NewEnemy.Trigger = ConvertTriggerToData(Enemy.EnemyTrigger);
+
+            return NewEnemy;
+        }
+
+        public Enemy ConvertEnemyDataToEnemy(LevelData.EnemyData enemy, Effect CartoonEffect)
+        {
+            Model model = ContentManager.Load<Model>(enemy.ContentName);
+            ChangeEffectUsedByModel(model, CartoonEffect);
+            Obj3d Object = new Obj3d(model, enemy.Position, enemy.Rotation, enemy.ContentName, enemy.Name);
+            Object.setScale(enemy.Scale);
+
+            Enemy NewEnemy = new Enemy();
+
+            NewEnemy.EnemyType = enemy.EnemyType;
+            NewEnemy.EnemyObject = Object;
+            NewEnemy.EnemyTrigger = ConvertTriggerDataToTrigger(enemy.Trigger);
+
+            return NewEnemy;
+        }
+      
         public void Save(string Filename)
         {
             if (LevelData != null)
             {
-                LevelData.LevelObjects = new List<LevelData.Generic3DObject>();
+                LevelData.LevelObjects.Clear();
                 foreach (Obj3d RealObject in LevelPieces)
                 {
                     LevelData.LevelObjects.Add(ConvertToGeneric3DObject(RealObject));
+                }
+
+                LevelData.LevelEnemies.Clear();
+                foreach (Enemy RealEnemy in Enemies)
+                {
+                    LevelData.LevelEnemies.Add(ConvertEnemyToEnemyData(RealEnemy));
                 }
                 LevelData.Save(Filename);
             }
@@ -224,7 +293,8 @@ namespace SunspotsEditor.LevelData
             }
             if (!SelectedList.Contains(DrawTypes.WaypointData))
             {
-                DrawLine(Device, technique);
+                if (this.waypoints.WaypointData.Count > 0)
+                    DrawLine(Device, technique);
             }
         }
 

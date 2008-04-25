@@ -10,28 +10,28 @@ namespace SunspotsEditor.Windows
 {
     class TestWindow : EditorWindow
     {
-        Level Level;
-        Effect postprocessEffect;
+        protected Level Level;
+        protected Effect postprocessEffect;
 
-        RenderTarget2D sceneRenderTarget;
-        RenderTarget2D normalDepthRenderTarget;
+        protected RenderTarget2D sceneRenderTarget;
+        protected RenderTarget2D normalDepthRenderTarget;
 
-        PrimitiveBatch PrimitiveBatch;
+        protected PrimitiveBatch PrimitiveBatch;
 
-        RunMode CurrentMode;
-        RunMode BeforePauseMode;
+        protected RunMode CurrentMode;
+        protected RunMode BeforePauseMode;
 
-        Texture2D RenderTex;
+        protected Texture2D RenderTex;
 
-        Vector3 CameraYawPitchRoll;
+        protected Vector3 CameraYawPitchRoll;
 
-        Vector3 CameraMovementSpeed;
-        Vector3 CameraRotationSpeed;
+        protected Vector3 CameraMovementSpeed;
+        protected Vector3 CameraRotationSpeed;
 
-        int SelectedContentItem;
+        protected int SelectedContentItem;
 
-        SimpleKeyboardEditableButton[] EditContentButtons;
-        int SelectedEditButton;
+        protected SimpleKeyboardEditableButton[] EditContentButtons;
+        protected int SelectedEditButton;
        
         public override void Initialize()
         {
@@ -454,15 +454,15 @@ namespace SunspotsEditor.Windows
                               SaveStateMode.None);
             
             
-            postprocessEffect.Begin();
-            postprocessEffect.CurrentTechnique.Passes[0].Begin();
+            /*postprocessEffect.Begin();
+            postprocessEffect.CurrentTechnique.Passes[0].Begin();*/
             
             RenderTex = sceneRenderTarget.GetTexture();
             WindowManager.SpriteBatch.Draw(RenderTex, new Rectangle(0, 0, 650, 500), Color.White);
             WindowManager.SpriteBatch.End();
             
-            postprocessEffect.CurrentTechnique.Passes[0].End();
-            postprocessEffect.End();
+            /*postprocessEffect.CurrentTechnique.Passes[0].End();
+            postprocessEffect.End();*/
         }
 
         public void Pause()

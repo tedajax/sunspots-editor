@@ -145,7 +145,9 @@ namespace SunspotsEditor.Windows
             else if (ToolToLoad == "Enemies")
             {
                 Pause();
-                //WindowManager.AddWindow(new EnemyEditor());
+                if (WindowManager.FindWindow("Enemy") == null) WindowManager.AddWindow(new EnemyEditor(), 0);
+                ((EnemyEditor)WindowManager.FindWindow("Enemy")).Unpause();
+                holdingEnter = true;
             }
             else if (ToolToLoad == "Scenery")
             {

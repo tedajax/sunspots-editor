@@ -12,9 +12,6 @@ namespace SunspotsEditor.LevelData
     [XmlRoot(Namespace = null, IsNullable = true, ElementName = "LevelData")]
     public class LevelData
     {
-
-               
-
         /// <summary>
         /// An Abstract 3D Object class. Used to save 3D object Data. Expand upon if need be.
         /// </summary>
@@ -31,6 +28,32 @@ namespace SunspotsEditor.LevelData
             public Generic3DObject()
             {
                
+            }
+        }
+
+        public class EnemyData : Generic3DObject
+        {
+            [XmlAttribute]
+            public String EnemyType;
+            
+            public TriggerData Trigger;
+            public EnemyData()
+            {
+                EnemyType = "Chase";
+                Trigger = new TriggerData();
+            }
+        }
+
+        public class TriggerData
+        {
+         
+            public Vector3 Position;
+            public Vector3 Scale;
+
+            public TriggerData()
+            {
+                Position = new Vector3();
+                Scale = Vector3.Zero;
             }
         }
 
@@ -74,7 +97,7 @@ namespace SunspotsEditor.LevelData
         /// Level Objects. These are giant Meshes placed in the level. Require Collision
         /// </summary>
         public List<Generic3DObject> LevelObjects;
-        
+        public List<EnemyData> LevelEnemies;
 
        ///<summary>
         /// Static Objects dont require collision. Things like Trees will go here.
@@ -88,9 +111,11 @@ namespace SunspotsEditor.LevelData
 
         public LevelData()
         {
-           LevelObjects = new List<Generic3DObject>();
-           // StaticObjects = new List<Generic3DObject>();new
-           Waypoints = new WaypointFolder();
+            LevelObjects = new List<Generic3DObject>();
+            // StaticObjects = new List<Generic3DObject>();new
+            Waypoints = new WaypointFolder();
+
+            LevelEnemies = new List<EnemyData>();
         }
 
         /// <summary>
@@ -99,7 +124,6 @@ namespace SunspotsEditor.LevelData
         /// <param name="Filename">the filename to save into</param>
         public void Save(string Filename)
         {
-
             Stream stream = null;
             try
             {
@@ -112,7 +136,6 @@ namespace SunspotsEditor.LevelData
                 if (stream != null)
                     stream.Close();
             }
-
         }
 
         /// <summary>
@@ -143,8 +166,5 @@ namespace SunspotsEditor.LevelData
            
             return LevelData;
         }
-
-
-
     }
 }

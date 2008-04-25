@@ -26,7 +26,30 @@ namespace SunspotsEditor
             this.DrawText = NonEditable + "<- " + EnemyType + " ->";
         }
 
-        public string GetEnemyType() { return EnemyType; }
+        public override string GetEnemyType()
+        {
+            return EnemyType;
+        }
+
+        public string getValueString() { return EnemyTypes[selected]; }
+
+        public override bool GetIntValue(String enemystr, out int value)
+        {
+            int index = 0;
+            foreach (string s in EnemyTypes)
+            {
+                if (s.Equals(enemystr))
+                {
+                    value = index;
+                    return true;
+                }
+
+                index++;
+            }
+
+            value = -1;
+            return false;
+        }
 
         public override void Update()
         {
