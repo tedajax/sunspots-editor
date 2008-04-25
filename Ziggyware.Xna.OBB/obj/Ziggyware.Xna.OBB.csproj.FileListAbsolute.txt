@@ -13,3 +13,8 @@ C:\Documents and Settings\Ted\My Documents\Visual Studio 2005\Projects\SunspotsE
 C:\Documents and Settings\Ted\My Documents\Visual Studio 2005\Projects\SunspotsEditor\Ziggyware.Xna.OBB\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\Ted\My Documents\Visual Studio 2005\Projects\SunspotsEditor\Ziggyware.Xna.OBB\obj\x86\Debug\Ziggyware.Xna.OBB.dll
 C:\Documents and Settings\Ted\My Documents\Visual Studio 2005\Projects\SunspotsEditor\Ziggyware.Xna.OBB\obj\x86\Debug\Ziggyware.Xna.OBB.pdb
+C:\Documents and Settings\Antidote\My Documents\Visual Studio 2005\Projects\SunSpotsEditor\Ziggyware.Xna.OBB\bin\x86\Debug\Ziggyware.Xna.OBB.dll
+C:\Documents and Settings\Antidote\My Documents\Visual Studio 2005\Projects\SunSpotsEditor\Ziggyware.Xna.OBB\bin\x86\Debug\Ziggyware.Xna.OBB.pdb
+C:\Documents and Settings\Antidote\My Documents\Visual Studio 2005\Projects\SunSpotsEditor\Ziggyware.Xna.OBB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Antidote\My Documents\Visual Studio 2005\Projects\SunSpotsEditor\Ziggyware.Xna.OBB\obj\x86\Debug\Ziggyware.Xna.OBB.dll
+C:\Documents and Settings\Antidote\My Documents\Visual Studio 2005\Projects\SunSpotsEditor\Ziggyware.Xna.OBB\obj\x86\Debug\Ziggyware.Xna.OBB.pdb

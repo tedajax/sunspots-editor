@@ -143,6 +143,8 @@ namespace SunspotsEditor.Windows
                     New.EnemyType = Selected.EnemyType;
                     New.EnemyObject.setName(Selected.EnemyObject.getName() + "C");
                     New.EnemyObject.setPosition(Selected.EnemyObject.getPosition());
+                    New.EnemyObject.setRotation(Selected.EnemyObject.getRotation());
+                    New.EnemyObject.setScale(Selected.EnemyObject.getScale());
                     Level.Enemies.Insert(SelectedContentItem + 1, New);
                 }
             }

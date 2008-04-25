@@ -134,7 +134,7 @@ namespace SunspotsEditor.Windows.LevelPieceWindow
                 TextStartPosition += TextAddVector;
                 EditButtons[3] = new VectorEditButton(TextStartPosition, Vector3.Zero, "Rotation : ");
                 TextStartPosition += TextAddVector;
-                EditButtons[4] = new VectorEditButton(TextStartPosition, Vector3.One, "Scale : ");
+                EditButtons[4] = new VectorEditButton(TextStartPosition, new Vector3(0.5f, 0.5f, 0.5f), "Scale : ");
                 TextStartPosition += TextAddVector;
                 EditButtons[5] = new EnemyTypeEditButton(TextStartPosition, 0, "Enemy Type : ");
 
