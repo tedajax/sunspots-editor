@@ -186,17 +186,73 @@
       </WaypointData>
       <WaypointData Name="17">
         <Position>
-          <X>404</X>
+          <X>399</X>
           <Y>12</Y>
-          <Z>35</Z>
+          <Z>46</Z>
         </Position>
         <Speed>1</Speed>
       </WaypointData>
-      <WaypointData Name="18 ">
+      <WaypointData Name="17C">
         <Position>
-          <X>420</X>
+          <X>404</X>
           <Y>12</Y>
-          <Z>-44</Z>
+          <Z>36</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="17CC">
+        <Position>
+          <X>409</X>
+          <Y>12</Y>
+          <Z>24</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="17CCC">
+        <Position>
+          <X>412</X>
+          <Y>12</Y>
+          <Z>13</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="18  ">
+        <Position>
+          <X>416</X>
+          <Y>12</Y>
+          <Z>-7</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="18  C">
+        <Position>
+          <X>421</X>
+          <Y>12</Y>
+          <Z>-35</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="18  CC">
+        <Position>
+          <X>425</X>
+          <Y>12</Y>
+          <Z>-48</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="18  CCC">
+        <Position>
+          <X>430</X>
+          <Y>12</Y>
+          <Z>-63</Z>
+        </Position>
+        <Speed>1</Speed>
+      </WaypointData>
+      <WaypointData Name="18  CCCC">
+        <Position>
+          <X>482</X>
+          <Y>12</Y>
+          <Z>-190</Z>
         </Position>
         <Speed>1</Speed>
       </WaypointData>

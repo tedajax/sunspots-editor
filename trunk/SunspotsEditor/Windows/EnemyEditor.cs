@@ -60,7 +60,7 @@ namespace SunspotsEditor.Windows
             Level = WindowManager.Level;
             Level.DrawingMode = Level.DrawMode.DrawNotSelected;
             Level.SelectedList = new List<Level.DrawTypes>();
-            Level.SelectedList.Add(Level.DrawTypes.LevelPieces);
+            //Level.SelectedList.Add();
 
             CameraClass.setUpCameraClass();
             CameraClass.Position = new Vector3(0, 0, 40);
