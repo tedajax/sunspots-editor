@@ -53,7 +53,7 @@ namespace SunspotsEditor.LevelData
             public TriggerData()
             {
                 Position = new Vector3();
-                Scale = Vector3.Zero;
+                Scale = Vector3.One;
             }
         }
 
