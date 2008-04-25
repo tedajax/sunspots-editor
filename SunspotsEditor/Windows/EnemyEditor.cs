@@ -118,6 +118,34 @@ namespace SunspotsEditor.Windows
                 this.WindowManager.AddWindow(new Windows.LevelPieceWindow.AddNewEnemy());
                 this.Pause();
             }
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Delete) == KeyInputType.Pressed)
+            {
+                if (SelectedContentItem != -1)
+                {
+                    Level.Enemies.RemoveAt(SelectedContentItem);
+                    if (SelectedContentItem >= Level.Enemies.Count)
+                    {
+                        SelectedContentItem = 0;
+                    }
+                    if (SelectedContentItem < 0) SelectedContentItem = Level.Enemies.Count - 1;
+                    if (Level.Enemies.Count == 0) SelectedContentItem = -1;
+                    SwitchedSelectedContent();
+                }
+            }
+            if (WindowManager.KeyboardMouseManager.getKeyData(Keys.C) == KeyInputType.Pressed)
+            {
+                if (SelectedContentItem != -1)
+                {
+                    Enemy Selected = Level.Enemies[SelectedContentItem];
+                    Enemy New = new Enemy();
+                    New.EnemyObject = new Obj3d(Selected.EnemyObject.GetModel(), Selected.EnemyObject.getContentName(), Selected.EnemyObject.getName());
+                    New.EnemyTrigger = new Trigger(Selected.EnemyTrigger.Position, Selected.EnemyTrigger.Scale);
+                    New.EnemyType = Selected.EnemyType;
+                    New.EnemyObject.setName(Selected.EnemyObject.getName() + "C");
+                    New.EnemyObject.setPosition(Selected.EnemyObject.getPosition());
+                    Level.Enemies.Insert(SelectedContentItem + 1, New);
+                }
+            }
             if (WindowManager.KeyboardMouseManager.getKeyData(Keys.Down) == KeyInputType.Pressed)
             {
                 SelectedContentItem++;
@@ -417,8 +445,6 @@ namespace SunspotsEditor.Windows
 
         public override void Draw3D()
         {
-
-
             WindowManager.GraphicsDevice.RenderState.DepthBufferEnable = true;
             WindowManager.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
             WindowManager.GraphicsDevice.RenderState.CullMode = CullMode.CullCounterClockwiseFace;
@@ -436,10 +462,15 @@ namespace SunspotsEditor.Windows
             DrawLevel("NormalDepth", device);
             Level.Draw("NormalDepth");
 
+            DrawEnemyTrigger();
+
             device.SetRenderTarget(0, sceneRenderTarget);
             device.Clear(Color.Blue);
             DrawLevel("Toon", device);
             Level.Draw("Toon");
+
+            DrawEnemyTrigger();
+
             device.RenderState.FillMode = FillMode.Solid;
             device.SetRenderTarget(0, null);
             device.Clear(Color.Black);
@@ -452,16 +483,13 @@ namespace SunspotsEditor.Windows
             PrimitiveBatch.AddVertex(new Vector2(0, 500), Color.White);
             PrimitiveBatch.End();
 
-            if (SelectedContentItem != -1)
-            {
-                DrawEnemyTrigger(this.Level.Enemies[SelectedContentItem]);
-            }
-
             base.Draw3D();
         }
 
-        public void DrawEnemyTrigger(Enemy ene)
+        public void DrawEnemyTrigger()
         {
+            if (SelectedContentItem == -1) return;
+            Enemy ene = Level.Enemies[SelectedContentItem];
             BasicEffect basiceffect = new BasicEffect(WindowManager.GraphicsDevice, null);
             basiceffect.VertexColorEnabled = true;
 
@@ -485,17 +513,19 @@ namespace SunspotsEditor.Windows
 
             for (int i = 0; i < 8; i++)
             {
-                Vertices[i].Color = Color.Blue;
+                Vertices[i].Color = Color.Orange;
             }
 
-            Matrix World = Matrix.CreateTranslation(Pos);
+            Matrix World = Matrix.CreateTranslation(Pos + ene.EnemyObject.getPosition());
             basiceffect.Begin();
+            basiceffect.World = World;
+            basiceffect.View = CameraClass.getLookAt();
+            basiceffect.Projection = CameraClass.getPerspective();
             foreach (EffectPass pass in basiceffect.CurrentTechnique.Passes)
             {
                 pass.Begin();
                 WindowManager.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, Vertices, 0, 8, indices, 0, 12);
                 pass.End();
-
             }
             basiceffect.End();
             
