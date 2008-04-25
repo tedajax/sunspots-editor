@@ -28,6 +28,8 @@ namespace SunspotsEditor.Windows
         protected Vector3 CameraMovementSpeed;
         protected Vector3 CameraRotationSpeed;
 
+        static short[] indices;
+
         protected int SelectedContentItem;
 
         protected SimpleKeyboardEditableButton[] EditContentButtons;
@@ -73,7 +75,41 @@ namespace SunspotsEditor.Windows
             SelectedEditButton = 0;
 
             SwitchedSelectedContent();
+
+            setupIndicies();
         }
+
+        public static void setupIndicies()
+        {
+            indices = new short[24];
+            indices[0] = 0;
+            indices[1] = 1;
+            indices[2] = 1;
+            indices[3] = 2;
+            indices[4] = 2;
+            indices[5] = 3;
+            indices[6] = 3;
+            indices[7] = 0;
+
+            indices[8] = 4;
+            indices[9] = 5;
+            indices[10] = 5;
+            indices[11] = 6;
+            indices[12] = 6;
+            indices[13] = 7;
+            indices[14] = 7;
+            indices[15] = 4;
+
+            indices[16] = 0;
+            indices[17] = 4;
+            indices[18] = 1;
+            indices[19] = 5;
+            indices[20] = 2;
+            indices[21] = 6;
+            indices[22] = 3;
+            indices[23] = 7;
+        }
+
 
         public void UpdateManageContent(GameTime gameTime)
         {
@@ -394,9 +430,7 @@ namespace SunspotsEditor.Windows
             renderState.DepthBufferEnable = true;
 
             GraphicsDevice device = WindowManager.GraphicsDevice;
-            device.RenderState.FillMode = FillMode.WireFrame;
-            if (SelectedContentItem == -1) device.RenderState.FillMode = FillMode.Solid;
-
+            
             device.SetRenderTarget(0, normalDepthRenderTarget);
             device.Clear(Color.Blue);
             DrawLevel("NormalDepth", device);
@@ -411,8 +445,6 @@ namespace SunspotsEditor.Windows
             device.Clear(Color.Black);
             ApplyPostprocess();
 
-
-
             PrimitiveBatch.Begin(PrimitiveType.LineList);
             PrimitiveBatch.AddVertex(new Vector2(650, 0), Color.White);
             PrimitiveBatch.AddVertex(new Vector2(650, 600), Color.White);
@@ -420,11 +452,60 @@ namespace SunspotsEditor.Windows
             PrimitiveBatch.AddVertex(new Vector2(0, 500), Color.White);
             PrimitiveBatch.End();
 
+            if (SelectedContentItem != -1)
+            {
+                DrawEnemyTrigger(this.Level.Enemies[SelectedContentItem]);
+            }
+
             base.Draw3D();
+        }
+
+        public void DrawEnemyTrigger(Enemy ene)
+        {
+            BasicEffect basiceffect = new BasicEffect(WindowManager.GraphicsDevice, null);
+            basiceffect.VertexColorEnabled = true;
+
+            basiceffect.View = CameraClass.getLookAt();
+            basiceffect.Projection = CameraClass.getPerspective();
+
+            Vector3 Pos = ene.EnemyTrigger.Position;
+            Vector3 Scl = ene.EnemyTrigger.Scale / 2;
+
+            VertexPositionColor[] Vertices = new VertexPositionColor[8];
+
+            Vertices[0].Position = new Vector3(-Scl.X, -Scl.Y, -Scl.Z);
+            Vertices[1].Position = new Vector3(Scl.X, -Scl.Y, -Scl.Z);
+            Vertices[2].Position = new Vector3(Scl.X, -Scl.Y, Scl.Z);
+            Vertices[3].Position = new Vector3(-Scl.X, -Scl.Y, Scl.Z);
+
+            Vertices[4].Position = new Vector3(-Scl.X, Scl.Y, -Scl.Z);
+            Vertices[5].Position = new Vector3(Scl.X, Scl.Y, -Scl.Z);
+            Vertices[6].Position = new Vector3(Scl.X, Scl.Y, Scl.Z);
+            Vertices[7].Position = new Vector3(-Scl.X, Scl.Y, Scl.Z);
+
+            for (int i = 0; i < 8; i++)
+            {
+                Vertices[i].Color = Color.Blue;
+            }
+
+            Matrix World = Matrix.CreateTranslation(Pos);
+            basiceffect.Begin();
+            foreach (EffectPass pass in basiceffect.CurrentTechnique.Passes)
+            {
+                pass.Begin();
+                WindowManager.GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, Vertices, 0, 8, indices, 0, 12);
+                pass.End();
+
+            }
+            basiceffect.End();
+            
         }
 
         private void DrawLevel(string Technique, GraphicsDevice device)
         {
+            device.RenderState.FillMode = FillMode.WireFrame;
+            if (SelectedContentItem == -1) device.RenderState.FillMode = FillMode.Solid;
+
             for (int i = 0; i < Level.Enemies.Count; i++)
             {
                 Obj3d O = Level.Enemies[i].EnemyObject;
@@ -438,6 +519,8 @@ namespace SunspotsEditor.Windows
                     device.RenderState.FillMode = FillMode.WireFrame;
                 }
             }
+
+            device.RenderState.FillMode = FillMode.Solid;
         }
 
         void ApplyPostprocess()
