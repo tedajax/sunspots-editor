@@ -18,6 +18,14 @@ namespace SunspotsEditor
             this.Position = Position;
         }
 
+        public virtual string GetEnemyType() { return "LOL"; }
+
+        public virtual bool GetIntValue(string enemystr, out int value)
+        {
+            value = 0;
+            return false;
+        }
+
         public virtual void Update()
         {
             if (IsSelected)

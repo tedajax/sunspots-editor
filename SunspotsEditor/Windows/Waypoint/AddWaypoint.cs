@@ -16,12 +16,12 @@ namespace SunspotsEditor.Windows.Waypoint
         protected SimpleKeyboardEditableButton[] EditButtons;
         protected int SelectedButton;
 
-      LevelData.LevelData.WaypointFolder WaypointFolder;
+        LevelData.LevelData.WaypointFolder WaypointFolder;
 
-      public AddWaypoint(LevelData.LevelData.WaypointFolder Folder)
-      {
-          this.WaypointFolder = Folder;
-      }
+        public AddWaypoint(LevelData.LevelData.WaypointFolder Folder)
+        {
+            this.WaypointFolder = Folder;
+        }
 
         public override void Initialize()
         {

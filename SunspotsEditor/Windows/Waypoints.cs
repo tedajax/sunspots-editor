@@ -477,35 +477,42 @@ namespace SunspotsEditor.Windows
 
         public void DrawLine(GraphicsDevice Device, string Technique)
         {
-            Effect Cartoon = Level.CartoonEffect;
-            Cartoon.CurrentTechnique = Cartoon.Techniques[Technique];
-            Cartoon.Parameters["World"].SetValue(Matrix.Identity);
-            Cartoon.Parameters["View"].SetValue(CameraClass.getLookAt());
-            Cartoon.Parameters["Projection"].SetValue(CameraClass.getPerspective());
-
-            VertexPositionColor[] VertList = new VertexPositionColor[Level.Waypoints.WaypointData.Count];
-            short[] Indicies = new short[(Level.Waypoints.WaypointData.Count * 2) - 2];
-
-            for (int i = 0; i < Level.Waypoints.WaypointData.Count; i++)
+            if (this.Level.Waypoints.WaypointData.Count <= 1)
             {
-                LevelData.LevelData.WaypointData D = Level.Waypoints.WaypointData[i];
-                VertList[i] = new VertexPositionColor(D.Position, Color.Red);
+                return;
             }
-            for (int i = 0; i < Level.Waypoints.WaypointData.Count-1; i++)
+            else
             {
-                Indicies[i * 2] = (short)i;
-                Indicies[(i * 2) + 1] = (short)(i + 1);
-            }
+                Effect Cartoon = Level.CartoonEffect;
+                Cartoon.CurrentTechnique = Cartoon.Techniques[Technique];
+                Cartoon.Parameters["World"].SetValue(Matrix.Identity);
+                Cartoon.Parameters["View"].SetValue(CameraClass.getLookAt());
+                Cartoon.Parameters["Projection"].SetValue(CameraClass.getPerspective());
 
-            Device.RenderState.PointSize = 10f;
-            Cartoon.Begin();
-            foreach (EffectPass Pass in Cartoon.CurrentTechnique.Passes)
-            {
-                Pass.Begin();
-                Device.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, VertList, 0, VertList.Length, Indicies, 0, VertList.Length - 1);
-                Pass.End();
+                VertexPositionColor[] VertList = new VertexPositionColor[Level.Waypoints.WaypointData.Count];
+                short[] Indicies = new short[(Level.Waypoints.WaypointData.Count * 2) - 2];
+
+                for (int i = 0; i < Level.Waypoints.WaypointData.Count; i++)
+                {
+                    LevelData.LevelData.WaypointData D = Level.Waypoints.WaypointData[i];
+                    VertList[i] = new VertexPositionColor(D.Position, Color.Red);
+                }
+                for (int i = 0; i < Level.Waypoints.WaypointData.Count - 1; i++)
+                {
+                    Indicies[i * 2] = (short)i;
+                    Indicies[(i * 2) + 1] = (short)(i + 1);
+                }
+
+                Device.RenderState.PointSize = 10f;
+                Cartoon.Begin();
+                foreach (EffectPass Pass in Cartoon.CurrentTechnique.Passes)
+                {
+                    Pass.Begin();
+                    Device.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.LineList, VertList, 0, VertList.Length, Indicies, 0, VertList.Length - 1);
+                    Pass.End();
+                }
+                Cartoon.End();
             }
-            Cartoon.End();
         }
 
         public void DrawWaypoints(String technique, GraphicsDevice device)
@@ -529,11 +536,8 @@ namespace SunspotsEditor.Windows
                     WaypointObject.DisplayModel(CameraClass.getLookAt(), technique, Vector3.Zero);
                 }
                 device.RenderState.FillMode = FillMode.Solid;
-                
             }
         }
-
-       
 
         void ApplyPostprocess()
         {
