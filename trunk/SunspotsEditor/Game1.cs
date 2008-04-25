@@ -22,7 +22,7 @@ namespace SunspotsEditor
         public enum EventType { StartAllRange }
         
         public static String[] LevelObjects = { "demolevel-2-2", "demolevel2" };
-        public static String[] EnemyObjects = { "testship2-2-3ds" };
+        public static String[] EnemyObjects = { "enemyship" };
 
 
         public static int iWidth = 800;
