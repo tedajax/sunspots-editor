@@ -402,16 +402,40 @@ namespace SunspotsEditor.Windows
         {
             Vector2 StartPosition = new Vector2(660, 20);
             Vector2 AddValue = new Vector2(0, 20);
+            int min = 0 ;
+            int max=0;
+            if (SelectedContentItem == -1)
+            {
+                min = 0;
+                max = 30;
+            }
+            else
+            {
+                if (SelectedContentItem > 10)
+                {
+
+                    min = SelectedContentItem - 10;
+                    max = SelectedContentItem + 20;
+                }
+                else
+                {
+                    min = 0;
+                    max = 30;
+                }
+            }
             for (int i =0; i<WindowManager.Level.Waypoints.WaypointData.Count;i++)
             {
-                LevelData.LevelData.WaypointData SelectedWaypoint = Level.Waypoints.WaypointData[i];
-                StartPosition += AddValue;
-                Color Col = Color.White;
-                if (SelectedContentItem == i)
+                if (i >= min && i <= max)
                 {
-                    Col = Color.Green;
+                    LevelData.LevelData.WaypointData SelectedWaypoint = Level.Waypoints.WaypointData[i];
+                    StartPosition += AddValue;
+                    Color Col = Color.White;
+                    if (SelectedContentItem == i)
+                    {
+                        Col = Color.Green;
+                    }
+                    WindowManager.TextMngr.DrawText(StartPosition, SelectedWaypoint.Name, Col);
                 }
-                WindowManager.TextMngr.DrawText(StartPosition, SelectedWaypoint.Name,Col);
             }
             DrawEditContent();
             base.Draw2D();
